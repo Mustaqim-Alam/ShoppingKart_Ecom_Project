@@ -1,0 +1,54 @@
+.login {
+  height: 90vh;
+  @include flex(column);
+  > main {
+    border-radius: 5px;
+    @include baseShadow;
+    @include flex(column, center, center, 1rem);
+    height: 80vh;
+    width: 100%;
+    max-width: 350px;
+    background-color: rgba(244, 242, 242, 0.598);
+    padding: 1rem;
+    .heading {
+      @include heading;
+    }
+    > div {
+      @include flex(column, unset, unset, 0.1rem);
+      width: 100%;
+
+      > input,
+      > select {
+        @include inputStyle;
+        border: 1px solid rgba(162, 162, 162, 0.53);
+        border-radius: 5px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      > p {
+        text-align: center;
+        margin: 2rem;
+      }
+      button {
+        width: 70%;
+        margin: auto;
+        height: 3rem;
+        @include btn(unset, rgb(62, 125, 242), white);
+        @include flex;
+        border: 1px solid rgb(62, 125, 242);
+        border-radius: 5px;
+        font-size: 1rem;
+        > svg {
+          background-color: white;
+          width: 22%;
+          height: 80%;
+          border-radius: 2px;
+        }
+
+        > span {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,149 @@
+.dashboard-product-box {
+  @include square(100%);
+  overflow: auto;
+  padding: 2rem;
+  background-color: white;
+  overflow-y: auto;
+}
+.main-container {
+  overflow-y: auto;
+}
+
+.create-product-btn {
+  background-color: rgb(201, 9, 9);
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  @include square(2.5rem);
+  @include flex(row, center, center, 0);
+  border-radius: 50%;
+  color: white;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+.product-management {
+  @include flex(row, center, center, 1rem);
+
+  > section {
+    height: 87vh;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.281);
+    background-color: white;
+    padding: 4rem;
+    border-radius: 5px;
+    @include flex(column, unset, unset, 1rem);
+    position: relative;
+    > img {
+      @include square(100%);
+      object-fit: cover;
+    }
+    > h2 {
+      @include heading(2px);
+      text-align: center;
+      font-weight: 700;
+    }
+    > span {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+    }
+    > strong {
+      font-weight: 300;
+    }
+    p {
+      text-align: center;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+  }
+
+  > article {
+    height: 87vh;
+    padding: 2rem;
+    width: 100%;
+    max-width: 350px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.281);
+
+    > form {
+      @include flex(column, unset, center, 1rem);
+      > h2 {
+        letter-spacing: 0.5rem;
+        text-transform: uppercase;
+        opacity: 0.8;
+      }
+      > img {
+        @include square(5rem);
+        object-fit: cover;
+      }
+      > div {
+        width: 100%;
+        position: relative;
+
+        > label {
+          opacity: 0.7;
+        }
+        > input {
+          border-radius: 5px;
+          @include inputStyle(
+            100%,
+            1rem,
+            unset,
+            1px solid rgba(13, 13, 13, 0.196)
+          );
+        }
+      }
+      > button {
+        padding: 1rem;
+        background-color: rgb(5, 107, 224);
+        width: 100%;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        cursor: pointer;
+      }
+    }
+  }
+  .shipping-info-card {
+    > h2 {
+      @include heading(2px);
+      text-align: center;
+      font-weight: 300;
+    }
+    > h5 {
+      margin: 2rem 0 0 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    > p {
+      margin: 0.5rem;
+    }
+    > button {
+      padding: 1rem;
+      background-color: rgb(5, 107, 224);
+      width: 100%;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+  }
+}
+
+.transaction-product-card {
+  @include flex(row, unset, center, 1rem);
+  > img {
+    @include square(4rem);
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  > span {
+    margin-left: auto;
+  }
+}

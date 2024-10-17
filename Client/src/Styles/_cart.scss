@@ -1,0 +1,167 @@
+.cart {
+  @include flex(row, center, flex-start, 4rem);
+  padding: 2rem 4rem;
+  height: calc(100vh - 4rem);
+  > main {
+    width: 70%;
+    height: 100%;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nothing-into-cart {
+      h1,
+      p {
+        @include heading(2px);
+        text-align: center;
+        color: $color3;
+      }
+    }
+
+    .cart-item {
+      padding: 2rem;
+      @include flex(row, flex-start, center, 3rem);
+      > img {
+        @include square(6rem);
+        object-fit: contain;
+      }
+      > article {
+        @include flex(column, center, flex-start, 0.25rem);
+        > a {
+          font-size: 1.2rem;
+          color: $color2;
+          &:hover {
+            color: $color3;
+          }
+        }
+        > span {
+          font-weight: 700;
+        }
+      }
+      > div {
+        margin-left: auto;
+        @include flex;
+        > button {
+          @include square(2rem);
+          border: none;
+          border-radius: 5px;
+          font-size: 1.2rem;
+          cursor: pointer;
+          @include flex;
+          &:hover {
+            background-color: $color3;
+            color: $color1;
+          }
+        }
+      }
+      > button {
+        border: none;
+        font-size: 1rem;
+        background-color: transparent;
+        @include flex;
+        &:hover {
+          color: red;
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+  aside {
+    width: 30%;
+    padding: 4rem;
+    @include flex(column, center, stretch, 1.2rem);
+    > p {
+      font-size: 1.1rem;
+    }
+    > input {
+      padding: 1rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: 1px solid black;
+      outline: none;
+    }
+    > a {
+      padding: 1rem;
+      background-color: $color3;
+      border: none;
+      border-radius: 10px;
+      @include flex;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: $color1;
+      &:hover {
+        opacity: 0.9;
+        letter-spacing: 4px;
+      }
+    }
+    > span {
+      margin-top: -1rem;
+      > code {
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+.shipping {
+  @include flex;
+  > form {
+    width: 100%;
+    max-width: 400px;
+    @include flex(column, center, stretch, 1.5rem);
+    padding: 2rem;
+    > h1 {
+      @include heading(4px);
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+    > input,
+    select {
+      padding: 1rem;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      outline: none;
+      border: 1px solid black;
+    }
+
+    > button {
+      padding: 1rem;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      outline: none;
+      border: none;
+      color: $color1;
+      background-color: $color3;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        opacity: 0.9;
+        letter-spacing: 1px;
+      }
+    }
+  }
+  #back-button {
+    @include square(2.5rem);
+    background-color: $color2;
+    color: $color1;
+    @include flex;
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    border-radius: 100%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    @include baseShadow;
+
+    svg {
+      transition: all 0.3s;
+    }
+
+    &:hover svg {
+      translate: -0.25rem;
+    }
+  }
+}
