@@ -4,7 +4,7 @@ import { GoSignOut } from "react-icons/go";
 import { HiSearch } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
-const user = { _id: "dfdssv", role: "admin" };
+const user = { _id: "", role: "admin" };
 const Header = () => {
   const logoutHandler = () => {};
 

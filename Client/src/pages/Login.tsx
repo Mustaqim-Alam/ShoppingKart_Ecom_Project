@@ -12,9 +12,10 @@ const Login = () => {
     try {
       const provider = new GoogleAuthProvider();
 
-      await signInWithPopup(auth);
-    } catch (err) {
-      toast.err("Sign in failed");
+      const { user } = await signInWithPopup(auth, provider);
+
+    } catch (error) {
+      toast.error("Sign in failed");
     }
   };
 
@@ -46,9 +47,7 @@ const Login = () => {
         </div>
         <div>
           <p>Already have an account!</p>
-          <button>
-            {" "}
-            onClick={loginHandler}
+          <button onClick={loginHandler}>
             <FcGoogle /> <span> Login with Google</span>{" "}
           </button>
         </div>
