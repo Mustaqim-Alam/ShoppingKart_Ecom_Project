@@ -20,13 +20,13 @@ const Login = () => {
       const { user } = await signInWithPopup(auth, provider);
 
       const res = await login({
-        name: "dfbhsdb",
-        email: "dfbhsdb@gmail.com",
+        name: user.displayName!,
+        email: user.email!,
         gender,
-        photo: "jfndsj",
+        photo: user.photoURL!,
         dob: date,
-        role: "hjfds",
-        _id: "dfnds",
+        role: "user",
+        _id: user.uid,
       });
 
       if ("data" in res) {
@@ -36,6 +36,8 @@ const Login = () => {
         const message = error.data as MessageResponse;
         toast.error(message.message);
       }
+
+      console.log(user);
     } catch (error) {
       toast.error("Sign in failed");
     }
