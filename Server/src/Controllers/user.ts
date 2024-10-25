@@ -10,9 +10,8 @@ export const newUser = tryCatch(
     res: Response,
     next: NextFunction
   ) => {
-
     // Destructure necessary fields from the request body
-    const { _id, name, email, dob, photo, gender,role } = req.body;
+    const { _id, name, email, dob, photo, gender, role } = req.body;
 
     //Finding user by id in database
     let user = await User.findById(_id);
@@ -21,11 +20,9 @@ export const newUser = tryCatch(
     if (user) {
       return res.status(200).json({
         success: true,
-        message: `Welcome ${user.name}`,
+        message: `User ${user.name} exists please login!`,
       });
     }
-
-   
 
     if (!_id || !name || !email || !dob || !photo || !gender || !role)
       return next(new Error("Please add all fields!"));
@@ -39,7 +36,7 @@ export const newUser = tryCatch(
       dob: new Date(dob),
       photo,
       gender,
-      role
+      role,
     });
 
     // Send a successful response with a welcome message

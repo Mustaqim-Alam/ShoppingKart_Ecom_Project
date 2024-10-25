@@ -3,10 +3,15 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { auth } from "../Firebase";
+import { useLoginMutation } from "../redux/api/userAPI";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { MessageResponse } from "../types/apiTypes";
 
 const Login = () => {
   const [date, setDate] = useState("");
   const [gender, setGender] = useState("");
+
+  const [login] = useLoginMutation();
 
   const loginHandler = async () => {
     try {
@@ -14,6 +19,23 @@ const Login = () => {
 
       const { user } = await signInWithPopup(auth, provider);
 
+      const res = await login({
+        name: "dfbhsdb",
+        email: "dfbhsdb@gmail.com",
+        gender,
+        photo: "jfndsj",
+        dob: date,
+        role: "hjfds",
+        _id: "dfnds",
+      });
+
+      if ("data" in res) {
+        toast.success(res.data.message);
+      } else {
+        const error = res.error as FetchBaseQueryError;
+        const message = error.data as MessageResponse;
+        toast.error(message.message);
+      }
     } catch (error) {
       toast.error("Sign in failed");
     }
