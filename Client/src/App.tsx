@@ -1,8 +1,12 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Loader from "./components/Loader";
 import Header from "./components/Header";
 import { Toaster } from "react-hot-toast";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./Firebase";
+import { useDispatch } from "react-redux";
+import { userExists, userNotExists } from "./redux/reducer/userReducer";
 const Home = lazy(() => import("./pages/Home"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Search = lazy(() => import("./pages/Search"));
@@ -34,6 +38,21 @@ const Login = lazy(() => import("./pages/Login"));
 const OrderList = lazy(() => import("./pages/OrdersList"));
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Logged In");
+        dispatch(userExists(user));
+      } else {
+        console.log("!Logged In");
+        dispatch(userNotExists());
+      }
+    });
+  }, []);
+
   return (
     <Router>
       <Suspense fallback={<Loader />}>
