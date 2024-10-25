@@ -1,12 +1,14 @@
-import { lazy, Suspense, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import Loader from "./components/Loader";
-import Header from "./components/Header";
-import { Toaster } from "react-hot-toast";
 import { onAuthStateChanged } from "firebase/auth";
+import { lazy, Suspense, useEffect } from "react";
+import { Toaster } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Header from "./components/Header";
+import Loader from "./components/Loader";
 import { auth } from "./Firebase";
-import { useDispatch } from "react-redux";
 import { userExists, userNotExists } from "./redux/reducer/userReducer";
+import { getUser } from "./redux/api/userAPI";
+import { userReducerInitialState } from "./types/reducerTypes";
 const Home = lazy(() => import("./pages/Home"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Search = lazy(() => import("./pages/Search"));
@@ -38,16 +40,21 @@ const Login = lazy(() => import("./pages/Login"));
 const OrderList = lazy(() => import("./pages/OrdersList"));
 
 const App = () => {
+  const { user, loading } = useSelector(
+    (state: { userReducer: userReducerInitialState }) => state.userReducer
+  );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     // const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        console.log("Logged In");
-        dispatch(userExists(user));
+        // console.log("Logged In");
+        const data = await getUser(user.uid);
+        dispatch(userExists(data.user));
       } else {
-        console.log("!Logged In");
+        // console.log("!Logged In");
         dispatch(userNotExists());
       }
     });
@@ -55,8 +62,8 @@ const App = () => {
 
   return (
     <Router>
-      <Suspense fallback={<Loader />}>
-        <Header />
+      <Suspense fallback={loading && <Loader />}>
+        <Header user={user} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />

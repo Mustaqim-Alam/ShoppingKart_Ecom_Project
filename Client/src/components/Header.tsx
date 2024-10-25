@@ -3,9 +3,12 @@ import { FaShoppingBag, FaSignInAlt, FaUserAlt } from "react-icons/fa";
 import { GoSignOut } from "react-icons/go";
 import { HiSearch } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import { User } from "../types/types";
 
-const user = { _id: "", role: "admin" };
-const Header = () => {
+interface propsTypes {
+  user: User | null;
+}
+const Header = ({ user }: propsTypes) => {
   const logoutHandler = () => {};
 
   const [isOpen, setisOpen] = useState<boolean>(false);
