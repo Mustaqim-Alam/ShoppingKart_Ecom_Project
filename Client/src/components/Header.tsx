@@ -4,22 +4,22 @@ import { GoSignOut } from "react-icons/go";
 import { HiSearch } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { User } from "../types/types";
+import toast from "react-hot-toast";
 
 interface propsTypes {
   user: User | null;
 }
 const Header = ({ user }: propsTypes) => {
   const [isOpen, setisOpen] = useState<boolean>(false);
-  
+
   const logoutHandler = () => {
     try {
-      
+      setisOpen(false);
     } catch (error) {
-      
+      toast.error("Sign out failed");
     }
   };
 
-  
   return (
     <nav className="header">
       <h1
