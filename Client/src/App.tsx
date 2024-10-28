@@ -3,12 +3,12 @@ import { lazy, Suspense, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Header from "./components/Header";
-import Loader from "./components/Loader";
 import { auth } from "./Firebase";
 import { getUser } from "./redux/api/userAPI";
 import { userExists, userNotExists } from "./redux/reducer/userReducer";
 import { userReducerInitialState } from "./types/reducerTypes";
+import Header from "./components/Header";
+import Loader from "./components/Loader";
 const Home = lazy(() => import("./pages/Home"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Search = lazy(() => import("./pages/Search"));
@@ -72,7 +72,7 @@ const App = () => {
           <Route path="/search" element={<Search />} />
           {/* LoggedIn User Route */}
           <Route
-            element={<ProtectedRoute isAuthenticated={user ? false : true} />}
+            element={<ProtectedRoute isAuthenticated={user ? true : false} />}
           >
             <Route path="/shipping" element={<ShippingAddress />} />
             <Route path="/orders" element={<OrderList />} />
@@ -89,16 +89,17 @@ const App = () => {
           />
 
           {/* Admin-Route */}
-          <Route>
-            <Route
-              path="/"
-              element={
-                // <Link to="/admin/dashboard">
-                //   <button>Visit to Admin Dashboarrd</button>
-                // </Link>
-                <ProtectedRoute isAuthenticated={user ? false : true} />
-              }
-            />
+
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute
+                isAuthenticated={true}
+                adminOnly={true}
+                admin={user?.role === "admin" ? true : false}
+              />
+            }
+          >
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/customer" element={<Customer />} />
             <Route path="/admin/product" element={<Product />} />
