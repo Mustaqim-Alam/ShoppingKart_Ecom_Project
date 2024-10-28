@@ -2,12 +2,12 @@ import { onAuthStateChanged } from "firebase/auth";
 import { lazy, Suspense, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Loader from "./components/Loader";
 import { auth } from "./Firebase";
-import { userExists, userNotExists } from "./redux/reducer/userReducer";
 import { getUser } from "./redux/api/userAPI";
+import { userExists, userNotExists } from "./redux/reducer/userReducer";
 import { userReducerInitialState } from "./types/reducerTypes";
 const Home = lazy(() => import("./pages/Home"));
 const Cart = lazy(() => import("./pages/Cart"));
@@ -39,6 +39,7 @@ const Toss = lazy(() => import("./pages/AdminPages/apps/Toss"));
 const ShippingAddress = lazy(() => import("./pages/Shipping"));
 const Login = lazy(() => import("./pages/Login"));
 const OrderList = lazy(() => import("./pages/OrdersList"));
+const OrderDetails = lazy(() => import("./pages/OrderDetails"));
 
 const App = () => {
   const { user, loading } = useSelector(
@@ -70,10 +71,22 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/search" element={<Search />} />
           {/* LoggedIn User Route */}
-          <Route path="/shipping" element={<ShippingAddress />} />
-          <Route path="/orders" element={<OrderList />} />
+          <Route
+            element={<ProtectedRoute isAuthenticated={user ? false : true} />}
+          >
+            <Route path="/shipping" element={<ShippingAddress />} />
+            <Route path="/orders" element={<OrderList />} />
+            <Route path="/orderdetails/:id" element={<OrderDetails />} />
+          </Route>
           {/* Not LoggedIn User Route */}
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              <ProtectedRoute isAuthenticated={false}>
+                <Login />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Admin-Route */}
           <Route>
@@ -83,7 +96,7 @@ const App = () => {
                 // <Link to="/admin/dashboard">
                 //   <button>Visit to Admin Dashboarrd</button>
                 // </Link>
-                <ProtectedRoute />
+                <ProtectedRoute isAuthenticated={user ? false : true} />
               }
             />
             <Route path="/admin/dashboard" element={<Dashboard />} />
