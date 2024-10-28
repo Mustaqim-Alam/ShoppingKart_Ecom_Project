@@ -9,9 +9,17 @@ interface propsTypes {
   user: User | null;
 }
 const Header = ({ user }: propsTypes) => {
-  const logoutHandler = () => {};
-
   const [isOpen, setisOpen] = useState<boolean>(false);
+  
+  const logoutHandler = () => {
+    try {
+      
+    } catch (error) {
+      
+    }
+  };
+
+  
   return (
     <nav className="header">
       <h1

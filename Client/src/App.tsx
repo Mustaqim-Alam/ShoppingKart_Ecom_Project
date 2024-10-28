@@ -89,9 +89,8 @@ const App = () => {
           />
 
           {/* Admin-Route */}
-
           <Route
-            path="/"
+            // path="/"
             element={
               <ProtectedRoute
                 isAuthenticated={true}
