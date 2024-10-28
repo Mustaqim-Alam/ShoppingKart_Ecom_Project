@@ -15,6 +15,7 @@ const Search = lazy(() => import("./pages/Search"));
 const BarChart = lazy(() => import("./pages/AdminPages/Charts/BarChart"));
 const LineCharts = lazy(() => import("./pages/AdminPages/Charts/LineChart"));
 const PieChart = lazy(() => import("./pages/AdminPages/Charts/PieChart"));
+const ProtectedRoute = lazy(() => import("./components/protectedRoute"));
 
 const Dashboard = lazy(() => import("./pages/AdminPages/Dashboard"));
 const Customer = lazy(() => import("./pages/AdminPages/Customer"));
@@ -68,18 +69,21 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/search" element={<Search />} />
+          {/* LoggedIn User Route */}
           <Route path="/shipping" element={<ShippingAddress />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/orders" element={<OrderList />} />
+          {/* Not LoggedIn User Route */}
+          <Route path="/login" element={<Login />} />
 
           {/* Admin-Route */}
           <Route>
             <Route
               path="/"
               element={
-                <Link to="/admin/dashboard">
-                  <button>Visit to Admin Dashboarrd</button>
-                </Link>
+                // <Link to="/admin/dashboard">
+                //   <button>Visit to Admin Dashboarrd</button>
+                // </Link>
+                <ProtectedRoute />
               }
             />
             <Route path="/admin/dashboard" element={<Dashboard />} />
