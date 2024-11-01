@@ -56,7 +56,7 @@ const App = () => {
         const data = await getUser(user.uid);
         dispatch(userExists(data.user));
       } else {
-        // console.log("!Logged In");
+        console.log("!Logged In");
         dispatch(userNotExists());
       }
     });
@@ -82,7 +82,7 @@ const App = () => {
           <Route
             path="/login"
             element={
-              <ProtectedRoute isAuthenticated={false}>
+              <ProtectedRoute isAuthenticated={user ? false : true}>
                 <Login />
               </ProtectedRoute>
             }

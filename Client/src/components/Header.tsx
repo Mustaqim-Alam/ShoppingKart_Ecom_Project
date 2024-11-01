@@ -5,6 +5,8 @@ import { HiSearch } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { User } from "../types/types";
 import toast from "react-hot-toast";
+import { signOut } from "firebase/auth";
+import { auth } from "../Firebase";
 
 interface propsTypes {
   user: User | null;
@@ -12,11 +14,14 @@ interface propsTypes {
 const Header = ({ user }: propsTypes) => {
   const [isOpen, setisOpen] = useState<boolean>(false);
 
-  const logoutHandler = () => {
+  const logoutHandler = async () => {
     try {
+      await signOut(auth);
+      toast.success("User logged out");
       setisOpen(false);
     } catch (error) {
       toast.error("Sign out failed");
+      console.error(error)
     }
   };
 

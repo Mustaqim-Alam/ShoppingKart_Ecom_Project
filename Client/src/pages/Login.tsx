@@ -1,10 +1,10 @@
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { auth } from "../Firebase";
 import { useLoginMutation } from "../redux/api/userAPI";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { MessageResponse } from "../types/apiTypes";
 
 const Login = () => {
@@ -30,16 +30,15 @@ const Login = () => {
       });
 
       if ("data" in res) {
-        toast.success(res.data.message);
+        toast.success(`welcome ${user.displayName}`);
       } else {
         const error = res.error as FetchBaseQueryError;
         const message = error.data as MessageResponse;
         toast.error(message.message);
       }
-
-      console.log(user);
     } catch (error) {
       toast.error("Sign in failed");
+      console.log(error);
     }
   };
 
