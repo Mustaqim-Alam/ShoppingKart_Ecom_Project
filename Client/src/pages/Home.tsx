@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
+import { useLatestProductsQuery } from "../redux/api/productAPI";
+import { lazy } from "react";
 
 const Home = () => {
+  const { data } = useLatestProductsQuery("");
+
   const addToCartHandler = () => {};
   return (
     <div className="home">
@@ -13,22 +17,17 @@ const Home = () => {
         </Link>
       </h1>
       <main>
-        <ProductCard
-          productId="fgshydjh"
-          photo="https://m.media-amazon.com/images/I/514T0SvwkHL._SL1500_.jpg"
-          name="Laptop"
-          price={54214}
-          stock={455}
-          handler={() => addToCartHandler()}
-        />
-        <ProductCard
-          productId="fgshydjh"
-          photo="https://images.unsplash.com/photo-1622428051717-dcd8412959de?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          name="Laptop"
-          price={54214}
-          stock={455}
-          handler={() => addToCartHandler()}
-        />
+        {data?.products.map((i) => (
+          <ProductCard
+            key={i._id}
+            productId={i._id}
+            photo={i.photo}
+            name={i.name}
+            price={i.price}
+            stock={i.stock}
+            handler={() => addToCartHandler()}
+          />
+        ))}
       </main>
     </div>
   );

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { rm } from "fs";
 import { myCache } from "../app.js";
+import { faker } from '@faker-js/faker';
 import { tryCatch } from "../Middlewares/error.js";
 import { Product } from "../Models/product.js";
 import {
@@ -19,7 +20,7 @@ export const getLatestProduct = tryCatch(async (req, res, next) => {
   if (myCache.has("latest-product")) {
     products = JSON.parse(myCache.get("latest-product") as string);
   } else {
-    products = await Product.find({}).sort({ createdat: -1 }).limit(5);
+    products = await Product.find({}).sort({ createdat: -1 }).limit(10);
     if (!products) return next(new ErrorHandler("Product not found!", 404));
     myCache.set("latest-product", JSON.stringify(products));
   }
@@ -90,7 +91,7 @@ export const newProduct = tryCatch(
     next: NextFunction
   ) => {
     const { name, stock, category, price } = req.body;
-    const photo = req.file;
+    const photo = req.file 
 
     // Check if a photo is attached
     if (!photo) return next(new ErrorHandler("Please attach a photo", 400));
@@ -234,7 +235,7 @@ export const getAllProducts = tryCatch(
 //   for (let i = 0; i < count; i++) {
 //     const product = {
 //       name: faker.commerce.productName(),
-//       photo: "src\\uploads\\c071a20b-6682-4e89-9da4-0a927afd59bc.png",
+//       photo: "uploads\\c071a20b-6682-4e89-9da4-0a927afd59bc.png",
 //       price: faker.commerce.price({ min: 1500, max: 80000, dec: 0 }),
 //       stock: faker.commerce.price({ min: 0, max: 100, dec: 0 }),
 //       category: faker.commerce.department(),
@@ -250,6 +251,8 @@ export const getAllProducts = tryCatch(
 
 //   console.log({ succecss: true });
 // };
+
+// generateRandomProducts(10)
 
 // const deleteRandomProduct = async (count: number = 15 ) => {
 //   const products = await Product.find({}).skip(2);
