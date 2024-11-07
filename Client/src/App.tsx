@@ -15,7 +15,7 @@ const Search = lazy(() => import("./pages/Search"));
 const BarChart = lazy(() => import("./pages/AdminPages/Charts/BarChart"));
 const LineCharts = lazy(() => import("./pages/AdminPages/Charts/LineChart"));
 const PieChart = lazy(() => import("./pages/AdminPages/Charts/PieChart"));
-const ProtectedRoute = lazy(() => import("./components/protectedRoute"));
+const ProtectedRoute = lazy(() => import("./components/ProtectedRoute"));
 
 const Dashboard = lazy(() => import("./pages/AdminPages/Dashboard"));
 const Customer = lazy(() => import("./pages/AdminPages/Customer"));

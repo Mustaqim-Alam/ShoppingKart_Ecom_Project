@@ -1,7 +1,10 @@
 import { ReactElement } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
+
+
 interface Props {
+  
   children?: ReactElement;
   isAuthenticated: boolean;
   adminOnly?: boolean;
