@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { useLatestProductsQuery } from "../redux/api/productAPI";
-import { lazy } from "react";
 
 const Home = () => {
   const { data } = useLatestProductsQuery("");

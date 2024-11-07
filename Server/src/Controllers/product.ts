@@ -104,13 +104,12 @@ export const newProduct = tryCatch(
       });
       return next(new Error("Please add all fields!"));
     }
-    const photoPath = `uploads/${req.file?.filename}`;
     // Create and save the new product
     await Product.create({
       name,
       price,
       stock,
-      photo: photoPath, // Store relative path here
+      photo: photo.path, // Store relative path here
       category: category.toLowerCase(),
     });
 
