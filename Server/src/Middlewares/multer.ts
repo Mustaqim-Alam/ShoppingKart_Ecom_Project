@@ -13,10 +13,10 @@ const storage = multer.diskStorage({
     callback(null, path.resolve(__dirname, "../uploads"));
   },
   filename: function (req, file, callback) {
-   // Generate a unique name for the file
-   const id = uuid();
-   const extName = path.extname(file.originalname); // Extracts file extension
-   callback(null, `${id}${extName}`);
+    // Generate a unique name for the file
+    const id = uuid();
+    const extName = path.extname(file.originalname); // Extracts file extension
+    callback(null, `${id}${extName}`);
   },
 });
 

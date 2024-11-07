@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ControllerType } from "../Types/types.js";
 import ErrorHandler from "../Utils/utilityClass.js";
 
+// Error handling middleware
 export const errorMiddleware = (
   err: ErrorHandler,
   req: Request,
@@ -12,6 +13,7 @@ export const errorMiddleware = (
   err.message ||= "Some internal error occurred!";
   // Set default status code if not provided
   err.statusCode ||= 500;
+
   res.status(err.statusCode).json({
     success: false,
     message: err.message,
@@ -22,5 +24,6 @@ export const errorMiddleware = (
 export const tryCatch =
   (func: ControllerType) =>
   (req: Request, res: Response, next: NextFunction) => {
-    return Promise.resolve(func(req, res, next)).catch(next);
+    Promise.resolve(func(req, res, next)).catch(next);
   };
+

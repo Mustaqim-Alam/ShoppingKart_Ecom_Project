@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { rm } from "fs";
 import { myCache } from "../app.js";
-import { faker } from '@faker-js/faker';
+import { faker } from "@faker-js/faker";
 import { tryCatch } from "../Middlewares/error.js";
 import { Product } from "../Models/product.js";
 import {
@@ -91,7 +91,7 @@ export const newProduct = tryCatch(
     next: NextFunction
   ) => {
     const { name, stock, category, price } = req.body;
-    const photo = req.file 
+    const photo = req.file;
 
     // Check if a photo is attached
     if (!photo) return next(new ErrorHandler("Please attach a photo", 400));
@@ -104,13 +104,13 @@ export const newProduct = tryCatch(
       });
       return next(new Error("Please add all fields!"));
     }
-
+    const photoPath = `uploads/${req.file?.filename}`;
     // Create and save the new product
     await Product.create({
       name,
       price,
       stock,
-      photo: photo.path,
+      photo: photoPath, // Store relative path here
       category: category.toLowerCase(),
     });
 
@@ -249,7 +249,7 @@ export const getAllProducts = tryCatch(
 
 //   await Product.create(products);
 
-//   console.log({ succecss: true });
+//   console.log({ success: true });
 // };
 
 // generateRandomProducts(10)

@@ -20,7 +20,7 @@ const ProductCard = ({
 ProductProps) => {
   return (
     <div className="product-card">
-      <img src={`${server}/${photo} `} loading="lazy" alt={name} />
+      <img src={`${server}/${photo} `} alt={name} />
       <p>{name}</p>
       <span>{price}</span>
       <div>
