@@ -4,6 +4,9 @@ import TableHOC from "../../components/AdminComponents/TableHOC";
 import { Column } from "react-table";
 import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
+import { useAllProductsQuery } from "../../redux/api/productAPI";
+import toast from "react-hot-toast";
+import { server } from "../../redux/store";
 
 interface DataType {
   photo: ReactElement;
@@ -160,10 +163,25 @@ const arr: DataType[] = [
 ];
 
 const Product = () => {
-  const [data] = useState<DataType[]>(arr);
+  const { data, error, isError, isLoading, } = useAllProductsQuery("")
+  const [rows, setRows] = useState<DataType[]>(arr);
+
+
+  // if (error) toast.error(error)
+
+  if (data) setRows(
+    data.products.map((product) => ({
+      photo: <img src={`${server}/${product.photo}`} />,
+      name: product.name,
+      price: product.price,
+      stock: product.stock,
+      action: <Link to={`admin/product/${product._id}`}></Link>,
+    }))
+  )
 
   const Table = useCallback(
-    TableHOC<DataType>(columns, data, "dashboard-product-box", "Products"),
+    TableHOC<DataType>(columns, rows, "dashboard-product-box", "Products",
+      rows.length > 6),
     []
   );
 
@@ -171,11 +189,11 @@ const Product = () => {
     <div className="admin-container">
       <Sidebar />
       <main className="main-container">{Table()}</main>
-      
+
       <Link to="/admin/product/new" className="create-product-btn">
         <FaPlus />
       </Link>
-    </div> 
+    </div>
   );
 };
 

@@ -15,7 +15,8 @@ function TableHOC<T extends object>(
   columns: Column<T>[],
   data: T[],
   containerClassname: string,
-  heading: string
+  heading: string,
+  showPagination: boolean = false
 ) {
   return function HOC() {
     const options: TableOptions<T> = {

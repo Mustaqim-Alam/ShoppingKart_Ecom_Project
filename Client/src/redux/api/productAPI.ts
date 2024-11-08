@@ -10,7 +10,10 @@ export const productAPI = createApi({
     latestProducts: builder.query<productResponse, string>({
       query: () => "latest",
     }),
+    allProducts: builder.query<productResponse, string>({
+      query: () => "admin-products",
+    }),
   }),
 });
 
-export const { useLatestProductsQuery } = productAPI;
+export const { useLatestProductsQuery, useAllProductsQuery } = productAPI;
