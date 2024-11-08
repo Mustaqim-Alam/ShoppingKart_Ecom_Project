@@ -93,10 +93,11 @@ const App = () => {
             // path="/"
             element={
               <ProtectedRoute
-                isAuthenticated={true}
-                adminOnly={true}
-                admin={user?.role === "admin" ? true : false}
-              />
+              isAuthenticated={!!user} // Assuming `user` is null or an object
+              adminOnly={true}
+              admin={user?.role === "admin"}
+              // loading={loading}
+            />
             }
           >
             <Route path="/admin/dashboard" element={<Dashboard />} />

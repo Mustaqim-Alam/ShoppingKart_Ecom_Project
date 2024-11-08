@@ -11,7 +11,7 @@ export const productAPI = createApi({
       query: () => "latest",
     }),
     allProducts: builder.query<productResponse, string>({
-      query: () => "admin-products",
+      query: (id) => `admin-products?id=${id}`,
     }),
   }),
 });
