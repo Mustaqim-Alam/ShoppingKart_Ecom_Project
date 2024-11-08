@@ -19,9 +19,9 @@ const protectedRoute = ({
   redirect = "/",
   loading = false
 }: Props) => {
-  console.log("isAuthenticated:", isAuthenticated);
-  console.log("admin:", admin);
-  console.log("loading:", loading);
+  // console.log("isAuthenticated:", isAuthenticated);
+  // console.log("admin:", admin);
+  // console.log("loading:", loading);
   if (loading) <Loader />
   if (!isAuthenticated) return <Navigate to={redirect} />;
 

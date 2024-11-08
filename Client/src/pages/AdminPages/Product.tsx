@@ -164,25 +164,33 @@ const Product = () => {
     toast.error(err.data.message)
   }
   useEffect(() => {
-    if (data)
+    if (data && data.products) {
       setRows(
         data.products.map((product) => ({
-
-          photo: <img src={`${server}/${product.photo}`} />,
+          photo: <img src={product.photo} alt={product.name} />,
           name: product.name,
           price: product.price,
           stock: product.stock,
-          action: <Link to={`admin/product/${product._id}`}></Link>,
+          action: <Link to={`/admin/product/${product._id}`}>Manage</Link>,
         }))
-      )
+      );
+    }
+  }, [data]);
 
-  }, [data])
+  if (isLoading) {
+    return <div>Loading products...</div>;
+  }
 
 
-  const Table = useCallback(
-    TableHOC<DataType>(columns, rows, "dashboard-product-box", "Products"),
-    []
-  );
+  const Table = TableHOC<DataType>(
+    columns,
+    rows,
+    "dashboard-product-box",
+    "Products",
+    rows.length > 6
+  )();
+
+
 
   return (
     <div className="admin-container">

@@ -16,6 +16,7 @@ function TableHOC<T extends object>(
   data: T[],
   containerClassname: string,
   heading: string,
+  showPagination: boolean = false
 ) {
   return function HOC() {
     const options: TableOptions<T> = {
@@ -30,14 +31,14 @@ function TableHOC<T extends object>(
       getTableProps,
       getTableBodyProps,
       headerGroups,
+      page,
       prepareRow,
       nextPage,
-      previousPage,
-      canNextPage,
-      canPreviousPage,
       pageCount,
       state: { pageIndex },
-      page,
+      previousPage,
+      canNextPage,
+      canPreviousPage
     } = useTable(options, useSortBy, usePagination);
 
     return (
@@ -86,7 +87,7 @@ function TableHOC<T extends object>(
 
 
         </table>
-        {pageCount > 1 ? (
+        {showPagination && (
           <div className="table-pagination">
             <button disabled={!canPreviousPage} onClick={previousPage}>
               ← Prev
@@ -96,7 +97,7 @@ function TableHOC<T extends object>(
               Next →
             </button>
           </div>
-        ) : null}
+        )}
       </div>
     );
   };
