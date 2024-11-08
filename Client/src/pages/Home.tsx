@@ -1,8 +1,8 @@
+import toast from "react-hot-toast";
+import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { useLatestProductsQuery } from "../redux/api/productAPI";
-import toast from "react-hot-toast";
-import Loader from "../components/Loader";
 
 const Home = () => {
   const { data, isLoading, isError } = useLatestProductsQuery("");
@@ -21,8 +21,9 @@ const Home = () => {
         </Link>
       </h1>
       <main>
+        <Skeleton />
         {isLoading ? (
-          <Loader />
+          <Skeleton count={5} />
         ) : (
           data?.products.map((i) => (
             <ProductCard
