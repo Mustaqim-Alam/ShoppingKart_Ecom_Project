@@ -60,7 +60,7 @@ const App = () => {
         dispatch(userNotExists());
       }
     });
-  }, []);
+  },[]);
 
   return (
     <Router>
@@ -125,7 +125,7 @@ const App = () => {
           </Route>
         </Routes>
       </Suspense>
-      <Toaster position="top-right" />
+      <Toaster position="bottom-center"/>
     </Router>
   );
 };
