@@ -8,9 +8,14 @@ export type userResponse = {
   success: boolean;
   user: User;
 };
+
 export type productResponse = {
   success: boolean;
   products: Products[];
+};
+export type adminProductResponse = {
+  success: boolean;
+  adminProducts: Products[];
 };
 
 export type CustomError = {

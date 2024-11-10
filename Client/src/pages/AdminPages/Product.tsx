@@ -1,5 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { FaPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Column } from "react-table";
@@ -9,7 +10,7 @@ import { Skeleton } from "../../components/Loader";
 import { useAllProductsQuery } from "../../redux/api/productAPI";
 import { CustomError } from "../../types/apiTypes";
 import { userReducerInitialState } from '../../types/reducerTypes';
-import { FaPlus } from "react-icons/fa";
+import { server } from "../../redux/store";
 
 interface DataType {
   photo: ReactElement;
@@ -20,166 +21,60 @@ interface DataType {
 }
 
 const columns: Column<DataType>[] = [
-  {
-    Header: "Photo",
-    accessor: "photo",
-  },
+  { Header: "Photo", accessor: "photo" },
+  { Header: "Name", accessor: "name" },
+  { Header: "Price", accessor: "price" },
+  { Header: "Stock", accessor: "stock" },
+  { Header: "Action", accessor: "action" },
 
-  {
-    Header: "Name",
-    accessor: "name",
-  },
 
-  {
-    Header: "Price",
-    accessor: "price",
-  },
-
-  {
-    Header: "Stock",
-    accessor: "stock",
-  },
-
-  {
-    Header: "Action",
-    accessor: "action",
-  },
 ];
 
 
-//   {
-//     photo: <img src={img} alt="Shoes" />,
-//     name: "Puma Shoes Air Jordan Cook Nigga 2023",
-//     price: 690,
-//     stock: 3,
-//     action: <Link to="/admin/product/sajknaskd">Manage</Link>,
-//   },
-
-//   {
-//     photo: <img src={img3} alt="Shoes" />,
-//     name: "Puma Sun Glass Air Jordan ",
-//     price: 5000,
-//     stock: 18,
-//     action: <Link to="/admin/product/sajknaskdfdghdft">Manage</Link>,
-//   },
-
-//   {
-//     photo: <img src={img4} alt="Shoes" />,
-//     name: "Bottle",
-//     price: 223,
-//     stock: 6133,
-//     action: <Link to="/admin/product/sdaskdnkasjdvxccvxn">Manage</Link>,
-//   },
-//   {
-//     photo: <img src={img5} alt="Shoes" />,
-//     name: "Boat Head Phone 2023",
-//     price: 2790,
-//     stock: 63,
-//     action: <Link to="/admin/product/sajknaskd">Manage</Link>,
-//   },
-
-//   {
-//     photo: <img src={img2} alt="Shoes" />,
-//     name: "Macbook",
-//     price: 232223,
-//     stock: 213,
-//     action: <Link to="/admin/product/sdaskdnkasjdn">Manage</Link>,
-//   },
-//   {
-//     photo: <img src={img2} alt="Shoes" />,
-//     name: "Macbook",
-//     price: 232223,
-//     stock: 213,
-//     action: <Link to="/admin/product/sdaskdnkasjdn">Manage</Link>,
-//   },
-//   {
-//     photo: <img src={img2} alt="Shoes" />,
-//     name: "Macbook",
-//     price: 232223,
-//     stock: 213,
-//     action: <Link to="/admin/product/sdaskdnkasjdn">Manage</Link>,
-//   },
-//   {
-//     photo: <img src={img2} alt="Shoes" />,
-//     name: "Macbook",
-//     price: 232223,
-//     stock: 213,
-//     action: <Link to="/admin/product/sdaskdnkasjdn">Manage</Link>,
-//   },
-//   {
-//     photo: <img src={img} alt="Shoes" />,
-//     name: "Puma Shoes Air Jordan Cook Nigga 2023",
-//     price: 690,
-//     stock: 3,
-//     action: <Link to="/admin/product/sajknaskd">Manage</Link>,
-//   },
-//   {
-//     photo: <img src={img} alt="Shoes" />,
-//     name: "Puma Shoes Air Jordan Cook Nigga 2023",
-//     price: 690,
-//     stock: 3,
-//     action: <Link to="/admin/product/sajknaskd">Manage</Link>,
-//   },
-//   {
-//     photo: <img src={img6} alt="Shoes" />,
-//     name: "Pepsi By Cococla ",
-//     price: 45,
-//     stock: 143,
-//     action: <Link to="/admin/product/sdaskdnkasjdn">Manage</Link>,
-//   },
-//   {
-//     photo: <img src={img6} alt="Shoes" />,
-//     name: "Pepsi By Cococla ",
-//     price: 45,
-//     stock: 143,
-//     action: <Link to="/admin/product/sdaskdnkasjdn">Manage</Link>,
-//   },
-//   {
-//     photo: <img src={img6} alt="Shoes" />,
-//     name: "Pepsi By Cococla ",
-//     price: 45,
-//     stock: 143,
-//     action: <Link to="/admin/product/sdaskdnkasjdn">Manage</Link>,
-//   },
-//   {
-//     photo: <img src={img6} alt="Shoes" />,
-//     name: "Pepsi By Cococla ",
-//     price: 45,
-//     stock: 143,
-//     action: <Link to="/admin/product/sdaskdnkasjdn">Manage</Link>,
-//   },
-// ];
-
 const Product = () => {
-  const { user } = useSelector(
-    (state: { userReducer: userReducerInitialState }) => state.
-      userReducer
-  );
-  const { data, error, isError, isLoading } = useAllProductsQuery(user?._id!);
+  const { user } = useSelector((state: { userReducer: userReducerInitialState }) => state.userReducer);
+  const { data, error, isError, isLoading } = useAllProductsQuery(user!._id);
+
   const [rows, setRows] = useState<DataType[]>([]);
+
+  useEffect(() => {
+    if (data) {
+      console.log("Fetched products:", data);
+    }
+  }, [data]);
+
+  if (isError) {
+    console.error("Error fetching products:", error);
+  }
 
   useEffect(() => {
     if (isError) {
       const err = error as CustomError;
       toast.error(err.data.message);
+      console.error("Error fetching products:", error);
     }
   }, [isError, error]);
 
   useEffect(() => {
-    if (data ) {
-      console.log("Data Available");
-      
-      setRows(
-        data.products.map((product) => ({
-          photo: <img src={product.photo} alt={product.name} />,
-          name: product.name,
-          price: product.price,
-          stock: product.stock,
-          action: <Link to={`/admin/product/${product._id}`}>Manage</Link>,
-        }))
-      );
+    if (data) {
+      console.log("Fetched products:", data);
+      if (Array.isArray(data.adminProducts)) {
+        setRows(
+          data.adminProducts.map((product) => ({
+            photo: <img src={`${server}/${product.photo}`} alt={product.name} />,
+            name: product.name,
+            price: product.price,
+            stock: product.stock,
+            action: <Link to={`/admin/product/${product._id}`}>Manage</Link>,
+          }))
+        );
+      } else {
+        console.log("Admin Product is not an array!", data.adminProducts);
+
+        setRows([]);
+      }
     }
-  }, [data]);
+  }, [data, isError]);
 
   const Table = TableHOC<DataType>(
     columns,
@@ -199,6 +94,5 @@ const Product = () => {
     </div>
   );
 };
-
 
 export default Product;

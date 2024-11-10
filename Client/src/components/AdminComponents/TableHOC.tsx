@@ -3,6 +3,7 @@ import {
   AiOutlineSortAscending,
   AiOutlineSortDescending,
 } from "react-icons/ai";
+
 import {
   Column,
   usePagination,
@@ -12,7 +13,7 @@ import {
 } from "react-table";
 
 
-function TableHOC<T extends object>(
+function TableHOC<T extends Object>(
   columns: Column<T>[],
   data: T[],
   containerClassname: string,
