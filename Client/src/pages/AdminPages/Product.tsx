@@ -1,15 +1,15 @@
-import { ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { FaPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Column } from "react-table";
 import Sidebar from "../../components/AdminComponents/Sidebar";
-import TableHOC from "../../components/AdminComponents/TableHOC";
+import TableHOC from '../../components/AdminComponents/TableHOC';
+import { Skeleton } from "../../components/Loader";
 import { useAllProductsQuery } from "../../redux/api/productAPI";
-import { server } from "../../redux/store";
 import { CustomError } from "../../types/apiTypes";
 import { userReducerInitialState } from '../../types/reducerTypes';
+import { FaPlus } from "react-icons/fa";
 
 interface DataType {
   photo: ReactElement;
@@ -151,20 +151,24 @@ const columns: Column<DataType>[] = [
 // ];
 
 const Product = () => {
-
   const { user } = useSelector(
-    (state: { userReducer: userReducerInitialState }) => state.userReducer
-  )
-  const { data, error, isError, isLoading, } = useAllProductsQuery(user?._id!)
+    (state: { userReducer: userReducerInitialState }) => state.
+      userReducer
+  );
+  const { data, error, isError, isLoading } = useAllProductsQuery(user?._id!);
   const [rows, setRows] = useState<DataType[]>([]);
 
-
-  if (isError) {
-    const err = error as CustomError;
-    toast.error(err.data.message)
-  }
   useEffect(() => {
-    if (data && data.products) {
+    if (isError) {
+      const err = error as CustomError;
+      toast.error(err.data.message);
+    }
+  }, [isError, error]);
+
+  useEffect(() => {
+    if (data ) {
+      console.log("Data Available");
+      
       setRows(
         data.products.map((product) => ({
           photo: <img src={product.photo} alt={product.name} />,
@@ -177,11 +181,6 @@ const Product = () => {
     }
   }, [data]);
 
-  if (isLoading) {
-    return <div>Loading products...</div>;
-  }
-
-
   const Table = TableHOC<DataType>(
     columns,
     rows,
@@ -190,18 +189,16 @@ const Product = () => {
     rows.length > 6
   )();
 
-
-
   return (
     <div className="admin-container">
       <Sidebar />
-      <main className="main-container">{Table()}</main>
-
+      <main>{isLoading ? <Skeleton length={20} /> : Table}</main>
       <Link to="/admin/product/new" className="create-product-btn">
         <FaPlus />
       </Link>
     </div>
   );
 };
+
 
 export default Product;
