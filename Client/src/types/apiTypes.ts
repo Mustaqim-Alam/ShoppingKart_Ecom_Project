@@ -17,6 +17,10 @@ export type adminProductResponse = {
   success: boolean;
   adminProducts: Products[];
 };
+export type CategoriesResponse = {
+  success: boolean;
+  categories: Products[];
+};
 
 export type CustomError = {
   status: number;

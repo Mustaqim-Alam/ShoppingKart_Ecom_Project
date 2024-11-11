@@ -13,6 +13,9 @@ export const productAPI = createApi({
     allProducts: builder.query<adminProductResponse, string>({
       query: (id) => `admin-products?id=${id}`,
     }),
+    categories: builder.query<adminProductResponse, string>({
+      query: () => "categories",
+    }),
   }),
 });
 

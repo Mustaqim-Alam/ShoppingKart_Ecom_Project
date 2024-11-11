@@ -87,7 +87,7 @@ const Product = () => {
   return (
     <div className="admin-container">
       <Sidebar />
-      <main>{isLoading ? <Skeleton length={20} /> : Table}</main>
+      <main className="dashboard" >{isLoading ? <Skeleton length={20} /> : Table}</main>
       <Link to="/admin/product/new" className="create-product-btn">
         <FaPlus />
       </Link>

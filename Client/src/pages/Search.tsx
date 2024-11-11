@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ProductCard from "../components/ProductCard";
+import { useAllProductsQuery } from "../redux/api/productAPI";
 
 const Search = () => {
   const [search, setSearch] = useState("");
@@ -12,6 +13,9 @@ const Search = () => {
 
   const isPrev = false;
   const isNext = true;
+
+
+  const {data, error, isError, }= useAllProductsQuery("")
 
   return (
     <div className="search-page">

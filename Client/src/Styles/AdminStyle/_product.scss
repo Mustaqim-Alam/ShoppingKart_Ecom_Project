@@ -1,3 +1,6 @@
+.main-container {
+  overflow-y: auto;
+}
 .dashboard-product-box {
   @include square(100%);
   overflow: auto;
