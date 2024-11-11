@@ -3,6 +3,7 @@ import {
   adminProductResponse,
   CategoriesResponse,
   productResponse,
+  SearchProductResponse,
 } from "../../types/apiTypes";
 
 export const productAPI = createApi({
@@ -20,7 +21,15 @@ export const productAPI = createApi({
     categories: builder.query<CategoriesResponse, string>({
       query: () => "categories",
     }),
+    searchProductRespose: builder.query<SearchProductResponse, string>({
+      query: () => "all-products",
+    }),
   }),
 });
 
-export const { useLatestProductsQuery, useAllProductsQuery } = productAPI;
+export const {
+  useLatestProductsQuery,
+  useAllProductsQuery,
+  useCategoriesQuery,
+  useSearchProductResposeQuery
+} = productAPI;

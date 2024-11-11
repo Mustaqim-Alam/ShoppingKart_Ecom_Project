@@ -1,21 +1,30 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import ProductCard from "../components/ProductCard";
-import { useAllProductsQuery } from "../redux/api/productAPI";
+import { useCategoriesQuery } from "../redux/api/productAPI";
+import { CustomError } from "../types/apiTypes";
 
 const Search = () => {
+
+  const { data: CategoriesResponse, isLoading: LoadingCategories, error, isError, } = useCategoriesQuery("")
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
   const [maxPrice, setmaxPrice] = useState(10000);
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
 
-  const addToCartHandler = () => {};
+  const addToCartHandler = () => { };
 
   const isPrev = false;
   const isNext = true;
 
+  if (isError) {
+    const err = error as CustomError
+    toast.error(err.data.message)
+  }
 
-  const {data, error, isError, }= useAllProductsQuery("")
+
+
 
   return (
     <div className="search-page">
@@ -45,14 +54,17 @@ const Search = () => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="all">All</option>
+            {
+              !LoadingCategories && CategoriesResponse?.categories.map((category) => (<option key={category} value={category}>{category}</option>))
+            }
+            {/* <option value="all">All</option>
             <option value="camera">Camera</option>
             <option value="footwear">Footwear</option>
             <option value="menswear">Men's wear</option>
             <option value="womenswear">Women's wear</option>
             <option value="laptop">Laptop</option>
             <option value="Jeans">Jeans</option>
-            <option value="mobile">Mobile</option>
+            <option value="mobile">Mobile</option> */}
           </select>
         </div>
       </aside>

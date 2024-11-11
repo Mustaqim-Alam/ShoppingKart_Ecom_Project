@@ -6,10 +6,10 @@ import { Skeleton } from "../components/Loader";
 
 const Home = () => {
   const { data, isLoading, isError } = useLatestProductsQuery("");
+  if (isError) toast.error("Products cannot be fetched");
 
   const addToCartHandler = () => { };
 
-  if (isError) toast.error("Products cannot be fetched");
 
   return (
     <div className="home">

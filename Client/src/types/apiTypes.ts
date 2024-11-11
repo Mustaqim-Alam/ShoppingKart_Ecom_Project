@@ -21,6 +21,11 @@ export type CategoriesResponse = {
   success: boolean;
   categories: Products[];
 };
+export type SearchProductResponse = {
+  success: boolean;
+  products: Products[];
+  totalPages: number;
+};
 
 export type CustomError = {
   status: number;
