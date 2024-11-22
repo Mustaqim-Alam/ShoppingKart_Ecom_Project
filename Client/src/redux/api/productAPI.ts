@@ -3,6 +3,7 @@ import {
   adminProductResponse,
   CategoriesResponse,
   productResponse,
+  SearchProductRequest,
   SearchProductResponse,
 } from "../../types/apiTypes";
 
@@ -21,8 +22,14 @@ export const productAPI = createApi({
     categories: builder.query<CategoriesResponse, string>({
       query: () => "categories",
     }),
-    searchProductRespose: builder.query<SearchProductResponse, string>({
-      query: () => "all-products",
+    searchProducts: builder.query<SearchProductResponse, SearchProductRequest>({
+      query: ({ price, search, sort, category, page }) => {
+        let base = ` all-products?search=${search}&page=${page}`;
+        if (price) base += `&price=${price}`;
+        if (sort) base += `&sort=${sort}`;
+        if (category) base += `&category${category}`;
+        return base;
+      },
     }),
   }),
 });
@@ -31,5 +38,5 @@ export const {
   useLatestProductsQuery,
   useAllProductsQuery,
   useCategoriesQuery,
-  useSearchProductResposeQuery
+  useSearchProductsQuery,
 } = productAPI;

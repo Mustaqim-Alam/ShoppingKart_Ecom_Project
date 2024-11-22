@@ -26,6 +26,13 @@ export type SearchProductResponse = {
   products: Products[];
   totalPages: number;
 };
+export type SearchProductRequest = {
+  price: number;
+  page: number;
+  category: string;
+  search: string;
+  sort: string;
+};
 
 export type CustomError = {
   status: number;
