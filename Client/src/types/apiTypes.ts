@@ -41,3 +41,8 @@ export type CustomError = {
     success: boolean;
   };
 };
+
+export type newProductRequest = {
+  id: string;
+  formData: FormData;
+};

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Skeleton } from "../components/Loader";
 import ProductCard from "../components/ProductCard";
 import { useCategoriesQuery, useSearchProductsQuery } from "../redux/api/productAPI";
 import { CustomError } from "../types/apiTypes";
-import { Skeleton } from "../components/Loader";
 
 const Search = () => {
 
