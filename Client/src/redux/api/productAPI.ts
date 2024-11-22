@@ -24,7 +24,7 @@ export const productAPI = createApi({
     }),
     searchProducts: builder.query<SearchProductResponse, SearchProductRequest>({
       query: ({ price, search, sort, category, page }) => {
-        let base = ` all-products?search=${search}&page=${page}`;
+        let base = `all-products?search=${search}&page=${page}`;
         if (price) base += `&price=${price}`;
         if (sort) base += `&sort=${sort}`;
         if (category) base += `&category${category}`;

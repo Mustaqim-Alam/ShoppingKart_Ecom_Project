@@ -1,17 +1,32 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import ProductCard from "../components/ProductCard";
-import { useCategoriesQuery } from "../redux/api/productAPI";
+import { useCategoriesQuery, useSearchProductsQuery } from "../redux/api/productAPI";
 import { CustomError } from "../types/apiTypes";
 
 const Search = () => {
 
-  const { data: CategoriesResponse, isLoading: LoadingCategories, error, isError, } = useCategoriesQuery("")
+  const {
+    data: CategoriesResponse,
+    isLoading: LoadingCategories,
+    error,
+    isError, } = useCategoriesQuery("")
+
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
   const [maxPrice, setmaxPrice] = useState(10000);
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
+
+  const { isLoading: productLoading, data: searchedData } = useSearchProductsQuery({
+    search,
+    sort,
+    price: maxPrice,
+    category,
+    page
+  })
+  console.log(searchedData?.products);
+
 
   const addToCartHandler = () => { };
 
@@ -77,33 +92,39 @@ const Search = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
         <div className="search-product-list">
-          <ProductCard
-            productId="fgshydjh"
-            photo="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvZXN8ZW58MHx8MHx8&w=1000&q=804"
-            name="Laptop"
-            price={54214}
-            stock={455}
-            handler={() => addToCartHandler()}
-          />
+          {
+            searchedData?.products.map((product) => (
+              <ProductCard
+                productId={product._id}
+                photo={product.photo}
+                name={product.name}
+                price={product.price}
+                stock={product.stock}
+                handler={() => addToCartHandler()}
+              />
+            ))
+          }
 
         </div>
-        <article>
-          <button
-            disabled={!isPrev}
-            onClick={() => setPage((prev) => prev - 1)}
-          >
-            Prev
-          </button>
-          <span>
-            {page} of {4}
-          </span>
-          <button
-            disabled={!isNext}
-            onClick={() => setPage((prev) => prev + 1)}
-          >
-            Next
-          </button>
-        </article>
+        {
+          searchedData && searchedData.totalPages > 1 ? (<article>
+            <button
+              disabled={!isPrev}
+              onClick={() => setPage((prev) => prev - 1)}
+            >
+              Prev
+            </button>
+            <span>
+              {page} of {4}
+            </span>
+            <button
+              disabled={!isNext}
+              onClick={() => setPage((prev) => prev + 1)}
+            >
+              Next
+            </button>
+          </article>) : null
+        }
       </main>
     </div>
   );
