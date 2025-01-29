@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { newProduct } from "../../../../Server/src/Controllers/product";
 import {
   adminProductResponse,
   CategoriesResponse,

@@ -11,5 +11,11 @@ export const store = configureStore({
     [productAPI.reducerPath]: productAPI.reducer,
     [userReducer.name]: userReducer.reducer,
   },
-  middleware: (mid) => [...mid(), userAPI.middleware, productAPI.middleware],
+  middleware: (mid) => [
+    ...mid(),
+    userAPI.middleware,
+    productAPI.middleware,
+    // orderApi.middleware,
+    // dashboardApi.middleware,
+  ],
 });
