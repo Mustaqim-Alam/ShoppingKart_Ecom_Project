@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { userReducerInitialState } from "../../types/reducerTypes";
+import { User } from "../../types/types";
 
 const initialState: userReducerInitialState = {
   user: null,
@@ -10,7 +11,7 @@ export const userReducer = createSlice({
   name: "userReducer",
   initialState,
   reducers: {
-    userExists: (state, action) => {
+    userExists: (state, action: PayloadAction<User>) => {
       state.loading = false;
       state.user = action.payload;
     },

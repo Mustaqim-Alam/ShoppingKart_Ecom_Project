@@ -9,6 +9,7 @@ import { auth } from "./Firebase";
 import { getUser } from "./redux/api/userAPI";
 import { userExists, userNotExists } from "./redux/reducer/userReducer";
 import { userReducerInitialState } from "./types/reducerTypes";
+import { RootState } from "@reduxjs/toolkit/query";
 const Home = lazy(() => import("./pages/Home"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Search = lazy(() => import("./pages/Search"));
@@ -43,16 +44,16 @@ const OrderDetails = lazy(() => import("./pages/OrderDetails"));
 
 const App = () => {
   const { user, loading } = useSelector(
-    (state: { userReducer: userReducerInitialState }) => state.userReducer
+    (state: { userReducer: RootState }) => state.userReducer
   );
 
   const dispatch = useDispatch();
-
+  //Checking user loggedin or not logged in 
   useEffect(() => {
     // const auth = getAuth();
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // console.log("Logged In");
+        console.log("Logged In");
         const data = await getUser(user.uid);
         dispatch(userExists(data.user));
       } else {
@@ -64,6 +65,7 @@ const App = () => {
 
   return loading ? (
     <Loader />
+
   ) : (
     <Router>
       {/* Header */}

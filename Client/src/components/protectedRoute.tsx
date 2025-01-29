@@ -4,7 +4,7 @@ import Loader from "./Loader";
 
 interface Props {
   children?: ReactElement;
-  isAuthenticated: boolean | null;
+  isAuthenticated: boolean ;
   adminOnly?: boolean;
   admin?: boolean;
   redirect?: string;
@@ -21,8 +21,8 @@ const protectedRoute = ({
 }: Props) => {
   // console.log("isAuthenticated:", isAuthenticated);
   // console.log("admin:", admin);
-  // console.log("loading:", loading);
-  if (loading) <Loader />
+  console.log("loading:", loading);
+  // if (loading) <Loader />
   if (!isAuthenticated) return <Navigate to={redirect} />;
 
   if (adminOnly && !admin) return <Navigate to={redirect} />;
