@@ -16,8 +16,8 @@ const ProductCard = ({
   name,
   price,
 }: // stock,
-// handler,
-ProductProps) => {
+  // handler,
+  ProductProps) => {
   return (
     <div className="product-card">
       <img src={`${server}/${photo} `} alt={name} />

@@ -32,7 +32,7 @@ const Search = () => {
   const addToCartHandler = () => { };
 
   const isPrev = page > 1;
-  const isNext = page < 1;
+  const isNext = page < 2;
 
   if (isError) {
     const err = error as CustomError

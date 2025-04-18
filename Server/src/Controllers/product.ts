@@ -11,6 +11,8 @@ import {
 } from "../Types/types.js";
 import ErrorHandler from "../Utils/utilityClass.js";
 import { invalidCache } from "../Utils/features.js";
+import multer from "multer";
+import express from "express";
 
 //  @route GET /api/v1/product/latest
 
@@ -91,19 +93,26 @@ export const newProduct = tryCatch(
     next: NextFunction
   ) => {
     const { name, stock, category, price } = req.body;
-    const photo = req.file;
+    console.log(req.body);
+
+    const photo = req.file as Express.Multer.File[] | undefined;
 
     // Check if a photo is attached
     if (!photo) return next(new ErrorHandler("Please attach a photo", 400));
 
+    if (photo.length < 1)
+      return next(new ErrorHandler("Please add atleast one Photo", 400));
+
+    if (photo.length > 5)
+      return next(new ErrorHandler("You can only upload 5 Photos", 400));
     // Ensure all required fields are filled
     if (!name || !stock || !category || !price) {
       // Delete the uploaded photo if any field is missing
-      rm(photo.path, () => {
-        console.log("Deleted incomplete product photo");
-      });
+     
       return next(new Error("Please add all fields!"));
     }
+
+    const photosURL = await uploadToCloudinary(photos);
     // Create and save the new product
     await Product.create({
       name,

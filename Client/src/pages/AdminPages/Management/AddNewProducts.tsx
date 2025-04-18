@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { ChangeEvent, FormEvent, useState } from "react";
 import Sidebar from "../../../components/AdminComponents/Sidebar";
 import { useNewProductMutation } from "../../../redux/api/productAPI";
@@ -40,7 +41,7 @@ const AddNewProducts = () => {
     const formData = new FormData()
 
     formData.set("name", name)
-    formData.set("price", price?.toString())
+    formData.set("price", price.toString())
     formData.set("stock", stock?.toString())
     formData.set("category", category)
     formData.set("photo", photo)
@@ -98,7 +99,7 @@ const AddNewProducts = () => {
             </div>
             <div>
               <label>Photo</label>
-              <input type="file" onChange={changeImageHandler} />
+              <input type="file" onChange={changeImageHandler} accept="image/*" />
             </div>
             {photo && <img src={photo} alt="New Product Image" />}
             <button>Create Product</button>
