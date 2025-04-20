@@ -4,10 +4,11 @@ import { useSelector } from "react-redux";
 import { userReducerInitialState } from "../../../types/reducerTypes";
 import { useProductDetailsQuery } from "../../../redux/api/productAPI";
 import { useParams } from "react-router-dom";
+import { server } from "../../../redux/store";
 
 const ProductManagement = () => {
-  const img =
-    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvZXN8ZW58MHx8MHx8&w=1000&q=804";
+  // const img =
+  //   "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvZXN8ZW58MHx8MHx8&w=1000&q=804";
 
   const { user } = useSelector((state: {
     userReducer: userReducerInitialState
@@ -17,6 +18,7 @@ const ProductManagement = () => {
   const { data } = useProductDetailsQuery(params.id!)
 
   const [product, setProduct] = useState({
+    _id: "",
     name: "",
     category: "",
     price: 0,
@@ -37,6 +39,15 @@ const ProductManagement = () => {
     const file: File | undefined = e.target.files?.[0];
 
     const reader: FileReader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file)
+      reader.onload = () => {
+        if (typeof reader.result == "string") {
+          setPhotoUpdate(reader.result)
+          setPhotoFile(file)
+        }
+      }
+    }
 
     if (file) {
       reader.readAsDataURL(file);
@@ -48,10 +59,10 @@ const ProductManagement = () => {
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setName(nameUpdate);
-    setPrice(priceUpdate);
-    setStock(stockUpdate);
-    setPhoto(photoUpdate);
+    setNameUpdate(nameUpdate);
+    setPriceUpdate(priceUpdate);
+    setStockUpdate(stockUpdate);
+    setPhotoUpdate(photoUpdate);
   };
 
 
@@ -67,8 +78,8 @@ const ProductManagement = () => {
       <Sidebar />
       <main className="product-management">
         <section>
-          <strong>ID : gjhdsfvhvasdj</strong>
-          <img src={photo} alt="" />
+          <strong>ID : {`${product._id}`}</strong>
+          <img src={`${server}/${photo}`} alt="" />
           <p>{name}</p>
           {stock > 0 ? (
             <span className="green">{`${stock} Available`}</span>
