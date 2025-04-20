@@ -7,7 +7,7 @@ export interface User {
   role: string;
   _id: string;
 }
-export interface Products {
+export interface Product {
   name: string;
   category: string;
   photo: string;

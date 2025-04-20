@@ -1,4 +1,4 @@
-import { Products, User } from "./types";
+import { Product, User } from "./types";
 
 export type MessageResponse = {
   success: boolean;
@@ -9,21 +9,21 @@ export type userResponse = {
   user: User;
 };
 
-export type productResponse = {
+export type AllproductResponse = {
   success: boolean;
-  products: Products[];
+  products: Product[];
 };
 export type adminProductResponse = {
   success: boolean;
-  adminProducts: Products[];
+  adminProducts: Product[];
 };
 export type CategoriesResponse = {
   success: boolean;
-  categories: Products[];
+  categories: Product[];
 };
 export type SearchProductResponse = {
   success: boolean;
-  products: Products[];
+  products: Product[];
   totalPages: number;
 };
 export type SearchProductRequest = {
@@ -42,6 +42,10 @@ export type CustomError = {
   };
 };
 
+export type ProductResponse = {
+  success: boolean;
+  product: Product;
+};
 export type newProductRequest = {
   id: string;
   formData: FormData;
