@@ -1,19 +1,37 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Sidebar from "../../../components/AdminComponents/Sidebar";
+import { useSelector } from "react-redux";
+import { userReducerInitialState } from "../../../types/reducerTypes";
+import { useProductDetailsQuery } from "../../../redux/api/productAPI";
+import { useParams } from "react-router-dom";
 
 const ProductManagement = () => {
   const img =
     "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvZXN8ZW58MHx8MHx8&w=1000&q=804";
 
-  const [name, setName] = useState<string>("Puma Shoes");
-  const [price, setPrice] = useState<number>(5451);
-  const [stock, setStock] = useState<number>(45);
-  const [photo, setPhoto] = useState<string>(img);
+  const { user } = useSelector((state: {
+    userReducer: userReducerInitialState
+  }) => state.userReducer);
+  const params = useParams()
+
+  const { data } = useProductDetailsQuery(params.id!)
+
+  const [product, setProduct] = useState({
+    name: "",
+    category: "",
+    price: 0,
+    stock: 0,
+    photo: "",
+  });
+
+  const { name, category, price, stock, photo, } = product
 
   const [nameUpdate, setNameUpdate] = useState<string>(name);
+  const [categoryUpdate, setCategoryUpdate] = useState<string>(category);
   const [priceUpdate, setPriceUpdate] = useState<number>(price);
   const [stockUpdate, setStockUpdate] = useState<number>(stock);
   const [photoUpdate, setPhotoUpdate] = useState<string>(photo);
+  const [photoFile, setPhotoFile] = useState<File>();
 
   const changeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const file: File | undefined = e.target.files?.[0];
@@ -35,6 +53,14 @@ const ProductManagement = () => {
     setStock(stockUpdate);
     setPhoto(photoUpdate);
   };
+
+
+
+  useEffect(() => {
+    if (data) {
+      setProduct(data.product)
+    }
+  }, [data])
 
   return (
     <div className="admin-container">

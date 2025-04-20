@@ -1,3 +1,4 @@
+import { ProductResponse } from "./../../types/apiTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   adminProductResponse,
@@ -38,6 +39,10 @@ export const productAPI = createApi({
       },
       providesTags: ["product"],
     }),
+    productDetails: builder.query<ProductResponse, string>({
+      query: (id) => id,
+      providesTags: ["product"],
+    }),
     newProduct: builder.mutation<MessageResponse, newProductRequest>({
       query: ({ id, formData }) => ({
         url: `new?id=${id}`,
@@ -55,4 +60,5 @@ export const {
   useCategoriesQuery,
   useSearchProductsQuery,
   useNewProductMutation,
+  useProductDetailsQuery,
 } = productAPI;
