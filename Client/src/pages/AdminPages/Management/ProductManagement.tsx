@@ -10,6 +10,7 @@ import { SerializedError } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { MessageResponse } from "../../../types/apiTypes";
 import { resToast } from "../../../../Utils/features";
+import { FaTrash } from "react-icons/fa";
 
 const ProductManagement = () => {
 
@@ -80,6 +81,14 @@ const ProductManagement = () => {
 
     resToast(res, navigate, "/admin/products")
   };
+  const deleteHandler = async () => {
+    const res = await deleteProduct({
+      userId: user?._id!,
+      productId: data?.product._id!
+    })
+
+    resToast(res, navigate, "/admin/products")
+  };
 
 
 
@@ -110,6 +119,9 @@ const ProductManagement = () => {
                 <h2>${price}</h2>
               </section>
               <article>
+                <button className="product-delete-btn" onClick={deleteHandler}>
+                  <FaTrash />
+                </button>
                 <form onSubmit={submitHandler}>
                   <h2>Manage</h2>
                   <div>
