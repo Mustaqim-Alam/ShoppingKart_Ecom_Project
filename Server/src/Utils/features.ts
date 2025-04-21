@@ -3,6 +3,7 @@ import { myCache } from "../app.js";
 import { Product } from "../Models/product.js";
 import { orderItemType, InvalidateCacheProps } from "../Types/types.js";
 import { Order } from "../Models/order.js";
+import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 
 export const connectdb = (uri: string) => {
   mongoose
@@ -15,6 +16,16 @@ export const connectdb = (uri: string) => {
     .catch((err) => console.log(err));
 };
 
+export const uploadToCloudinary = async (files: Express.Multer.File[]) => {
+  const promises = files.map(async (file) => {
+    return new Promise<UploadApiResponse>((resolve, reject) => {
+      cloudinary.uploader.upload(getBase64(file), (error, result) => {
+        if (error) return reject(error);
+        resolve(result!);
+      });
+    });
+  });
+};
 // Checking caches for user, product and admin
 export const invalidCache = async ({
   admin,

@@ -25,12 +25,25 @@
     opacity: 0.8;
   }
 }
+.product-delete-btn {
+  background-color: rgb(56, 56, 56);
+  color: white;
+  font-size: 1.2rem;
+  @include square(2.5rem);
+  @include flex;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  position: absolute;
+  top: -1.2rem;
+  right: -1.2rem;
+}
 
 .product-management {
   @include flex(row, center, center, 1rem);
 
   > section {
-    height: 87vh;
+    height: 85vh;
     overflow-y: auto;
     width: 100%;
     max-width: 450px;
@@ -65,24 +78,15 @@
   }
 
   > article {
-    height: 87vh;
+    height: 85vh;
     padding: 2rem;
     width: 100%;
-    max-width: 350px;
+    max-width: 400px;
     background-color: white;
     border-radius: 5px;
-    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.281);
-    .product-delete-btn {
-      background-color: rgb(56, 56, 56);
-      color: white;
-      font-size: 1.2rem;
-      @include square(2.5rem);
-      @include flex;
-      border-radius: 50%;
-      cursor: pointer;
-      border: none;
-      position: absolute;
-    }
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.216);
+    position: relative;
+    
     > form {
       @include flex(column, unset, center, 1rem);
       > h2 {

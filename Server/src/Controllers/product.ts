@@ -10,7 +10,7 @@ import {
   searchRequestQuery,
 } from "../Types/types.js";
 import ErrorHandler from "../Utils/utilityClass.js";
-import { invalidCache } from "../Utils/features.js";
+import { invalidCache, uploadToCloudinary } from "../Utils/features.js";
 import multer from "multer";
 import express from "express";
 
@@ -108,17 +108,17 @@ export const newProduct = tryCatch(
     // Ensure all required fields are filled
     if (!name || !stock || !category || !price) {
       // Delete the uploaded photo if any field is missing
-     
+
       return next(new Error("Please add all fields!"));
     }
 
-    const photosURL = await uploadToCloudinary(photos);
+    const photosURL = await uploadToCloudinary(photo);
     // Create and save the new product
     await Product.create({
       name,
       price,
       stock,
-      photo: photo.path, // Store relative path here
+      photo: photosURL, // Store relative path here
       category: category.toLowerCase(),
     });
 

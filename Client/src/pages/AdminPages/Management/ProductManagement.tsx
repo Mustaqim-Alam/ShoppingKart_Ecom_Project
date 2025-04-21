@@ -36,7 +36,7 @@ const ProductManagement = () => {
   const [categoryUpdate, setCategoryUpdate] = useState<string>(category);
   const [priceUpdate, setPriceUpdate] = useState<number>(price);
   const [stockUpdate, setStockUpdate] = useState<number>(stock);
-  const [photoUpdate, setPhotoUpdate] = useState<string>(photo);
+  const [photoUpdate, setPhotoUpdate] = useState<string>("");
   const [photoFile, setPhotoFile] = useState<File>();
 
   const [updateProduct] = useUpdateProductMutation()
@@ -79,7 +79,7 @@ const ProductManagement = () => {
       productId: data?.product._id!
     })
 
-    resToast(res, navigate, "/admin/products")
+    resToast(res, navigate, "/admin/product")
   };
   const deleteHandler = async () => {
     const res = await deleteProduct({
@@ -87,7 +87,7 @@ const ProductManagement = () => {
       productId: data?.product._id!
     })
 
-    resToast(res, navigate, "/admin/products")
+    resToast(res, navigate, "/admin/product")
   };
 
 
