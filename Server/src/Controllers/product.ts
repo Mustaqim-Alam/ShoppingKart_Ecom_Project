@@ -10,9 +10,10 @@ import {
   searchRequestQuery,
 } from "../Types/types.js";
 import ErrorHandler from "../Utils/utilityClass.js";
-import { invalidCache, uploadToCloudinary } from "../Utils/features.js";
+import { invalidCache } from "../Utils/features.js";
 import multer from "multer";
 import express from "express";
+import { log } from "console";
 
 //  @route GET /api/v1/product/latest
 
@@ -97,13 +98,20 @@ export const newProduct = tryCatch(
 
     const files = req.files as Express.Multer.File[] | undefined;
 
-    if (!files || files.length === 0)
+    console.log(req.files);
+
+    if (!files || files.length === 0) {
+      console.log("No files uploaded or received");
       return next(new ErrorHandler("Please add at least one photo", 400));
+    }
 
     if (files.length > 5)
       return next(new ErrorHandler("You can only upload up to 5 photos", 400));
 
-    const photosURL = await uploadToCloudinary(files);
+    // const photosURL = await uploadToCloudinary(files);
+    const photosURL = files
+      .map((file) => file.path)
+      .filter((path) => path !== undefined); // ✅ Remove undefined values
 
     // Ensure all required fields are filled
     if (!name || !stock || !category || !price) {
@@ -117,7 +125,7 @@ export const newProduct = tryCatch(
       name,
       price,
       stock,
-      photo: photosURL, // Store relative path here
+      photo: photosURL.length > 0 ? photosURL[0] : "uploads/", // ✅ Store first valid image path
       category: category.toLowerCase(),
     });
 
@@ -134,29 +142,28 @@ export const newProduct = tryCatch(
 export const updateProduct = tryCatch(async (req, res, next) => {
   const { id } = req.params;
   const { name, stock, category, price } = req.body;
-  const photo = req.file;
+  const files = req.files as Express.Multer.File[] | undefined;
 
-  // Check if a new photo is attached
-  if (!photo) return next(new ErrorHandler("Please attach a photo", 400));
+  console.log("Received Files:", files);
 
   const product = await Product.findById(id);
   if (!product) return next(new ErrorHandler("Product not found!", 404));
 
-  // Update the product fields
-  if (photo) {
-    // Delete the old photo if a new one is uploaded
-    rm(product.photo, () => {
-      console.log("Deleted old product photo");
-    });
-    product.photo = photo.path;
+  console.log("Existing Product Photo:", product.photo);
+
+  const photoPath = files?.[0]?.path || product.photo; // ✅ Ensures product exists before using its photo
+  product.photo = photoPath;
+
+  if (!files && !product.photo) {
+    return next(new ErrorHandler("Please attach a photo", 400));
   }
+
   if (name) product.name = name;
   if (stock) product.stock = stock;
   if (category) product.category = category;
   if (price) product.price = price;
 
   await product.save();
-
   await invalidCache({
     product: true,
     productId: String(product._id),

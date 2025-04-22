@@ -43,27 +43,20 @@ const ProductManagement = () => {
   const [deleteProduct] = useDeleteProductMutation()
 
   const changeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const file: File | undefined = e.target.files?.[0];
-
-    const reader: FileReader = new FileReader();
-    if (file) {
-      reader.readAsDataURL(file)
-      reader.onload = () => {
-        if (typeof reader.result == "string") {
-          setPhotoUpdate(reader.result)
-          setPhotoFile(file)
-        }
-      }
-    }
+    const file = e.target.files?.[0];
 
     if (file) {
+      const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        
-        if (typeof reader.result === "string") setPhotoUpdate(reader.result);
+        if (typeof reader.result === "string") {
+          setPhotoUpdate(reader.result);
+          setPhotoFile(file);
+        }
       };
     }
   };
+
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -75,7 +68,7 @@ const ProductManagement = () => {
     if (categoryUpdate) formData.set("category", categoryUpdate)
 
     const res = await updateProduct({
-      formData, 
+      formData,
       userId: user?._id!,
       productId: data?.product._id!
     })
@@ -95,13 +88,14 @@ const ProductManagement = () => {
 
 
 
+
   useEffect(() => {
     if (data) {
       setNameUpdate(data.product.name)
       setStockUpdate(data.product.stock)
       setPriceUpdate(data.product.price)
       setCategoryUpdate(data.product.category)
-      setPhotoUpdate(photoUpdate)
+      setPhotoUpdate(data.product.photo)
     }
   }, [data])
 

@@ -3,7 +3,7 @@ import { myCache } from "../app.js";
 import { Product } from "../Models/product.js";
 import { orderItemType, InvalidateCacheProps } from "../Types/types.js";
 import { Order } from "../Models/order.js";
-import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
+// import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 
 export const connectdb = (uri: string) => {
   mongoose

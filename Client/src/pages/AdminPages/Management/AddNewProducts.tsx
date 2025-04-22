@@ -22,19 +22,10 @@ const AddNewProducts = () => {
   const navigate = useNavigate()
 
   const changeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const file: File | undefined = e.target.files?.[0];
-
-    const reader: FileReader = new FileReader();
-
-    if (file) {
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        if (typeof reader.result === "string") {
-          setPhoto(file);
-        }
-      };
-    }
+    const file = e.target.files?.[0];
+    if (file) setPhoto(file);
   };
+  
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -46,7 +37,9 @@ const AddNewProducts = () => {
     formData.set("price", price.toString())
     formData.set("stock", stock?.toString())
     formData.set("category", category)
-    formData.set("photo", photo)
+    // formData.set("photo", photo)
+    formData.append("photo", photo!);
+
 
     const res = await newProduct({ id: user?._id!, formData })
     resToast(res, navigate, "/admin/product")
@@ -103,7 +96,8 @@ const AddNewProducts = () => {
               <label>Photo</label>
               <input type="file" onChange={changeImageHandler} accept="image/*" />
             </div>
-            {photo && <img src={photo} alt="New Product Image" />}
+            {photo && <img src={URL.createObjectURL(photo)} alt="New Product Image" />}
+
             <button>Create Product</button>
           </form>
         </article>

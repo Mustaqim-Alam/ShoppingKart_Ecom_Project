@@ -1,19 +1,16 @@
 import multer from "multer";
-// import { v4 as uuid } from "uuid";
+import { v4 as uuid } from "uuid";
 
-// const storage = multer.diskStorage({
-//   destination(req, file, callback) {
-//     callback(null, "uploads");
-//   },
-//   filename(req, file, callback) {
-//     const id = uuid();
-//     const extName = file.originalname.split(".").pop();
-//     callback(null, file.originalname);
-//   },
-// });
-
-// ✅ Use memoryStorage so Cloudinary gets access to file.buffer
-const storage = multer.memoryStorage();
+const storage = multer.diskStorage({
+  destination(req, file, callback) {
+    callback(null, "uploads");
+  },
+  filename(req, file, callback) {
+    const id = uuid();
+    const extName = file.originalname.split(".").pop();
+    callback(null, file.originalname);
+  },
+});
 
 // ✅ Accept up to 5 files with field name "photo"
 export const singleUpload = multer({ storage }).array("photo", 5);
