@@ -15,7 +15,7 @@ const AddNewProducts = () => {
   const [name, setName] = useState<string>();
   const [price, setPrice] = useState<number>();
   const [stock, setStock] = useState<number>();
-  const [photo, setPhoto] = useState<string>();
+  const [photo, setPhoto] = useState<File>();
   const [category, setCategory] = useState<string>();
 
   const [newProduct] = useNewProductMutation()
@@ -29,7 +29,9 @@ const AddNewProducts = () => {
     if (file) {
       reader.readAsDataURL(file);
       reader.onload = () => {
-        if (typeof reader.result === "string") setPhoto(reader.result);
+        if (typeof reader.result === "string") {
+          setPhoto(file);
+        }
       };
     }
   };

@@ -16,6 +16,10 @@ export const connectdb = (uri: string) => {
     .catch((err) => console.log(err));
 };
 
+
+const getBase64 = (file: Express.Multer.File) =>
+  `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
+
 export const uploadToCloudinary = async (files: Express.Multer.File[]) => {
   const promises = files.map(async (file) => {
     return new Promise<UploadApiResponse>((resolve, reject) => {

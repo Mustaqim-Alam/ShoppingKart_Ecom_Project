@@ -95,16 +95,16 @@ export const newProduct = tryCatch(
     const { name, stock, category, price } = req.body;
     console.log(req.body);
 
-    const photo = req.file as Express.Multer.File[] | undefined;
+    const files = req.files as Express.Multer.File[] | undefined;
 
-    // Check if a photo is attached
-    if (!photo) return next(new ErrorHandler("Please attach a photo", 400));
+    if (!files || files.length === 0)
+      return next(new ErrorHandler("Please add at least one photo", 400));
 
-    if (photo.length < 1)
-      return next(new ErrorHandler("Please add atleast one Photo", 400));
+    if (files.length > 5)
+      return next(new ErrorHandler("You can only upload up to 5 photos", 400));
 
-    if (photo.length > 5)
-      return next(new ErrorHandler("You can only upload 5 Photos", 400));
+    const photosURL = await uploadToCloudinary(files);
+
     // Ensure all required fields are filled
     if (!name || !stock || !category || !price) {
       // Delete the uploaded photo if any field is missing
@@ -112,7 +112,6 @@ export const newProduct = tryCatch(
       return next(new Error("Please add all fields!"));
     }
 
-    const photosURL = await uploadToCloudinary(photo);
     // Create and save the new product
     await Product.create({
       name,
