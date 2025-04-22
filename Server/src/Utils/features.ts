@@ -17,19 +17,19 @@ export const connectdb = (uri: string) => {
 };
 
 
-const getBase64 = (file: Express.Multer.File) =>
-  `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
+// const getBase64 = (file: Express.Multer.File) =>
+//   `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
 
-export const uploadToCloudinary = async (files: Express.Multer.File[]) => {
-  const promises = files.map(async (file) => {
-    return new Promise<UploadApiResponse>((resolve, reject) => {
-      cloudinary.uploader.upload(getBase64(file), (error, result) => {
-        if (error) return reject(error);
-        resolve(result!);
-      });
-    });
-  });
-};
+// export const uploadToCloudinary = async (files: Express.Multer.File[]) => {
+//   const promises = files.map(async (file) => {
+//     return new Promise<UploadApiResponse>((resolve, reject) => {
+//       cloudinary.uploader.upload(getBase64(file), (error, result) => {
+//         if (error) return reject(error);
+//         resolve(result!);
+//       });
+//     });
+//   });
+// };
 // Checking caches for user, product and admin
 export const invalidCache = async ({
   admin,

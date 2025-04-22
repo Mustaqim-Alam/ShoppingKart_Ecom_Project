@@ -59,6 +59,7 @@ const ProductManagement = () => {
     if (file) {
       reader.readAsDataURL(file);
       reader.onload = () => {
+        
         if (typeof reader.result === "string") setPhotoUpdate(reader.result);
       };
     }
@@ -74,13 +75,15 @@ const ProductManagement = () => {
     if (categoryUpdate) formData.set("category", categoryUpdate)
 
     const res = await updateProduct({
-      formData,
+      formData, 
       userId: user?._id!,
       productId: data?.product._id!
     })
 
     resToast(res, navigate, "/admin/product")
   };
+
+
   const deleteHandler = async () => {
     const res = await deleteProduct({
       userId: user?._id!,
@@ -97,6 +100,8 @@ const ProductManagement = () => {
       setNameUpdate(data.product.name)
       setStockUpdate(data.product.stock)
       setPriceUpdate(data.product.price)
+      setCategoryUpdate(data.product.category)
+      setPhotoUpdate(photoUpdate)
     }
   }, [data])
 
