@@ -1,26 +1,31 @@
 import { useEffect, useState } from "react";
 import { VscError } from "react-icons/vsc";
-import CartItem from "../components/CartItem";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import CartItem from "../components/CartItem";
+import { cartReducerInitialState } from "../types/reducerTypes";
 
-const cartItems = [
-  {
-    photo:
-      "https://images.unsplash.com/photo-1622428051717-dcd8412959de?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    name: "Bottle",
-    quantity: 800,
-    productId: "hvbhsadba",
-    price: 225,
-    stock: 33,
-  },
-];
-const subtotal = 4000;
-const tax = Math.round(subtotal * 0.18);
-const discount = 400;
-const shippingCharge = 200;
-const total = subtotal + tax + shippingCharge - discount;
+// const cartItems = [
+//   {
+//     photo:
+//       "https://images.unsplash.com/photo-1622428051717-dcd8412959de?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//     name: "Bottle",
+//     quantity: 800,
+//     productId: "hvbhsadba",
+//     price: 225,
+//     stock: 33,
+//   },
+// ];
+// const subtotal = 4000;
+// const tax = Math.round(subtotal * 0.18);
+// const discount = 400;
+// const shippingCharge = 200;
+// const total = subtotal + tax + shippingCharge - discount;
 
 const Cart = () => {
+
+  const { cartItems, subTotal, tax, total, discount, shippingCharge } = useSelector((state: { cartReducer: cartReducerInitialState }) => state.cartReducer)
+
   const [couponCode, setCouponCode] = useState<string>("");
   const [isCouponValid, setIsCouponValid] = useState<boolean>(false);
 
@@ -60,7 +65,7 @@ const Cart = () => {
         )}
       </main>
       <aside>
-        <p>Subtotal: ₹{subtotal}</p>
+        <p>Subtotal: ₹{subTotal}</p>
         <p>Tax: ₹{tax}</p>
         <p>Shipping Charge: ₹{shippingCharge}</p>
         <p>

@@ -1,5 +1,6 @@
 import { FaTrashCan } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { server } from "../redux/store";
 
 type cartitems = {
   photo: string;
@@ -14,7 +15,7 @@ type cartitems = {
 const CartItem = ({ photo, name, quantity, productId, price }: cartitems) => {
   return (
     <div className="cart-item">
-      <img src={photo} alt={name} />
+      <img src={`${server}/${photo}`} alt={name} />
       <article>
         <Link to={`/product/${productId}`}>{name}</Link>
         <span>₹{price}</span>
