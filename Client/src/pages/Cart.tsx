@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { VscError } from "react-icons/vsc";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
-import { cartReducerInitialState } from "../types/reducerTypes";
+import { cartReducerInitialState } from '../types/reducerTypes';
+import { cartItem } from "../types/types";
+import { addToCart, removeCartItem } from "../redux/reducer/cartReducer";
 
 // const cartItems = [
 //   {
@@ -28,6 +30,21 @@ const Cart = () => {
 
   const [couponCode, setCouponCode] = useState<string>("");
   const [isCouponValid, setIsCouponValid] = useState<boolean>(false);
+  useState<boolean>(false);
+
+  const dispatch = useDispatch()
+
+  const incrementeCartItemHandler = (cartItem: cartItem) => {
+    dispatch(addToCart({ ...cartItem, quantity: cartItem.quantity + 1 }))
+  };
+  const decrementeCartItemHandler = (cartItem: cartItem) => {
+    dispatch(addToCart({ ...cartItem, quantity: cartItem.quantity + 1 }))
+  };
+  const removeItemHandler = (productId: string) => {
+    dispatch(removeCartItem(productId))
+  }
+
+
 
   useEffect(() => {
     const timeOutID = setTimeout(() => {
@@ -45,16 +62,13 @@ const Cart = () => {
     <div className="cart">
       <main>
         {cartItems.length > 0 ? (
-          cartItems.map((index) => (
+          cartItems.map((i, idx) => (
             <CartItem
-              key={index.productId}
-              photo={index.photo}
-              name={index.name}
-              productId={index.productId}
-              price={index.price}
-              quantity={index.quantity}
-              stock={90}
-              cartItem={3}
+              incrementeCartItemHandler={incrementeCartItemHandler}
+              decrementCartItemHandler={decrementeCartItemHandler}
+              removeItrmHandler={removeItemHandler}
+              key={idx}
+              cartItem={i}
             />
           ))
         ) : (
@@ -83,7 +97,7 @@ const Cart = () => {
         />
         {couponCode &&
           (isCouponValid ? (
-            <span className="green">
+            <span className ="green">
               -₹{discount} off using <code>{couponCode}</code>
             </span>
           ) : (
