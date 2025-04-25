@@ -17,6 +17,7 @@ const Home = () => {
     if (cartItem.stock < 1) return toast.error("Item Out of Stock ")
 
     dispatch(addToCart(cartItem))
+    toast.success("Item Added to Cart")
   };
 
 

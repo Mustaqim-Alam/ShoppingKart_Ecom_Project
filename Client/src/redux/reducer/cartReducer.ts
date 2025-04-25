@@ -34,6 +34,8 @@ export const cartReducer = createSlice({
       else state.cartItems.push(action.payload);
       state.loading = false;
     },
+
+    
     removeCartItem: (state, action: PayloadAction<string>) => {
       state.loading = true;
       state.cartItems = state.cartItems.filter(
@@ -41,7 +43,21 @@ export const cartReducer = createSlice({
       );
       state.loading = false;
     },
+
+    calculatePrice: (state) => {
+      const subTotal = state.cartItems.reduce(
+        (total, item) => total + item.quantity * item.price,
+        0
+      );
+
+      state.subTotal = subTotal;
+      state.shippingCharge = state.subTotal > 1000 ? 200 : 0;
+      state.tax = Math.round(state.subTotal * 0.18);
+      state.total =
+        state.subTotal + state.tax + state.shippingCharge - state.discount;
+    },
   },
 });
 
-export const { addToCart, removeCartItem } = cartReducer.actions;
+export const { addToCart, removeCartItem, calculatePrice } =
+  cartReducer.actions;

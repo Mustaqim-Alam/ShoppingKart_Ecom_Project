@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { VscError } from "react-icons/vsc";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
+import { addToCart, calculatePrice, removeCartItem } from "../redux/reducer/cartReducer";
 import { cartReducerInitialState } from '../types/reducerTypes';
 import { cartItem } from "../types/types";
-import { addToCart, removeCartItem } from "../redux/reducer/cartReducer";
 
 // const cartItems = [
 //   {
@@ -35,14 +36,20 @@ const Cart = () => {
   const dispatch = useDispatch()
 
   const incrementeCartItemHandler = (cartItem: cartItem) => {
+    if (cartItem.quantity >= cartItem.stock) return toast.error(" More Not Available ")
     dispatch(addToCart({ ...cartItem, quantity: cartItem.quantity + 1 }))
   };
   const decrementeCartItemHandler = (cartItem: cartItem) => {
-    dispatch(addToCart({ ...cartItem, quantity: cartItem.quantity + 1 }))
+    if (cartItem.quantity <= 1) return
+    dispatch(addToCart({ ...cartItem, quantity: cartItem.quantity - 1 }))
   };
   const removeItemHandler = (productId: string) => {
     dispatch(removeCartItem(productId))
   }
+
+  useEffect(() => {
+    dispatch(calculatePrice())
+  }, [cartItems])
 
 
 
@@ -97,7 +104,7 @@ const Cart = () => {
         />
         {couponCode &&
           (isCouponValid ? (
-            <span className ="green">
+            <span className="green">
               -₹{discount} off using <code>{couponCode}</code>
             </span>
           ) : (
