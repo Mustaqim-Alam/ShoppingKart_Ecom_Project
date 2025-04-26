@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
-    AllOrdersResponse,
-    MessageResponse,
-    newOrderRequest,
-    orderDetailsResponse,
-    orderUpdateRequest,
+  AllOrdersResponse,
+  MessageResponse,
+  newOrderRequest,
+  orderDetailsResponse,
+  orderUpdateRequest,
 } from "../../types/apiTypes";
 
 export const orderApi = createApi({
@@ -36,15 +36,15 @@ export const orderApi = createApi({
       }),
       invalidatesTags: ["orders"],
     }),
-    myOrder: builder.query<string, AllOrdersResponse>({
+    myOrder: builder.query< AllOrdersResponse,string>({
       query: (id) => `my?id=${id}`,
       providesTags: ["orders"],
     }),
-    allOrder: builder.query<string, AllOrdersResponse>({
-      query: (id) => `all?id=${id}`,
+    allOrder: builder.query<AllOrdersResponse, string>({
+      query: (id) => `allOrders?id=${id}`,
       providesTags: ["orders"],
     }),
-    orderDetails: builder.query<string, orderDetailsResponse>({
+    orderDetails: builder.query<orderDetailsResponse,string>({
       query: (id) => `all?id=${id}`,
       providesTags: ["orders"],
     }),
