@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { VscError } from "react-icons/vsc";
@@ -5,10 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
 import { addToCart, calculatePrice, discountApplied, removeCartItem } from "../redux/reducer/cartReducer";
+import { server } from "../redux/store";
 import { cartReducerInitialState } from '../types/reducerTypes';
 import { cartItem } from "../types/types";
-import axios from "axios";
-import { server } from "../redux/store";
 
 // const cartItems = [
 //   {
@@ -61,10 +61,13 @@ const Cart = () => {
         .then((res) => {
           dispatch(discountApplied(res.data.discount))
           console.log(res.data)
+          dispatch(calculatePrice())
           setIsCouponValid(true)
+
         })
         .catch(() => {
           dispatch(discountApplied(0))
+          dispatch(calculatePrice())
           setIsCouponValid(false)
         })
 

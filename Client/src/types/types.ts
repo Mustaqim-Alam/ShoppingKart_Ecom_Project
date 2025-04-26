@@ -1,3 +1,4 @@
+import { shippingInfo } from "./types";
 export type User = {
   name: string;
   email: string;
@@ -29,4 +30,28 @@ export type cartItem = {
   quantity: number;
   price: number;
   stock: number;
+};
+export type orderItem = {
+  name: string;
+  productId: string;
+  photo: string;
+  quantity: number;
+  price: number;
+  _id: string;
+};
+
+export type order = {
+  orderItem: orderItem[];
+  shippingInfo: shippingInfo;
+  subTotal: number;
+  tax: number;
+  shippingCharge: number;
+  total: number;
+  discount: number;
+  status: string;
+  _id: string;
+  user: {
+    _id: string;
+    name: string;
+  };
 };
