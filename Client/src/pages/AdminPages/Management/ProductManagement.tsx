@@ -1,16 +1,16 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import Sidebar from "../../../components/AdminComponents/Sidebar";
-import { useSelector } from "react-redux";
-import { userReducerInitialState } from "../../../types/reducerTypes";
-import { useDeleteProductMutation, useProductDetailsQuery, useUpdateProductMutation } from "../../../redux/api/productAPI";
-import { NavigateProps, useNavigate, useParams } from "react-router-dom";
-import { server } from "../../../redux/store";
-import { Skeleton } from "../../../components/Loader";
 import { SerializedError } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { MessageResponse } from "../../../types/apiTypes";
-import { resToast } from "../../../../Utils/features";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { Navigate, NavigateProps, useNavigate, useParams } from "react-router-dom";
+import { resToast } from "../../../../Utils/features";
+import Sidebar from "../../../components/AdminComponents/Sidebar";
+import { Skeleton } from "../../../components/Loader";
+import { useDeleteProductMutation, useProductDetailsQuery, useUpdateProductMutation } from "../../../redux/api/productAPI";
+import { server } from "../../../redux/store";
+import { MessageResponse } from "../../../types/apiTypes";
+import { userReducerInitialState } from "../../../types/reducerTypes";
 
 const ProductManagement = () => {
 
@@ -21,7 +21,7 @@ const ProductManagement = () => {
   const params = useParams()
   const navigate = useNavigate()
 
-  const { data, isLoading } = useProductDetailsQuery(params.id!)
+  const { data, isLoading, isError } = useProductDetailsQuery(params.id!)
 
 
   const { name, category, price, stock, photo, } = data?.product || {
@@ -98,6 +98,9 @@ const ProductManagement = () => {
       setPhotoUpdate(data.product.photo)
     }
   }, [data])
+
+  if (isError) return <Navigate to="/404" />
+
 
   return (
     <div className="admin-container">

@@ -1,7 +1,13 @@
 import { Column } from "react-table";
 import TableHOC from "../components/AdminComponents/TableHOC";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { userReducerInitialState } from "../types/reducerTypes";
+import { useAllOrderQuery } from "../redux/api/orderAPI";
+import { CustomError } from "../types/apiTypes";
+import toast from "react-hot-toast";
+import { Skeleton } from "../components/Loader";
 
 type DataType = {
   _id: string;
@@ -38,18 +44,64 @@ const column: Column<DataType>[] = [
     accessor: "action",
   },
 ];
-const id = "bhvfds";
+// const id = "bhvfds";
+
+
+
 const OrdersList = () => {
-  const [rows] = useState<DataType[]>([
-    {
-      _id: "hdsfbvhds",
-      amount: 54541,
-      quantity: 45,
-      discount: 56,
-      status: <span>Processing</span>,
-      action: <Link to={`/order/${id}`}>view</Link>,
-    },
-  ]);
+
+  const { user } = useSelector((state: { userReducer: userReducerInitialState }) => state.userReducer);
+  const { data, error, isError, isLoading } = useAllOrderQuery(user._id!);
+
+  const [rows, setRows] = useState<DataType[]>([
+    // {
+    //   _id: "hdsfbvhds",
+    //   amount: 54541,
+    //   quantity: 45,
+    //   discount: 56,
+    //   status: <span>Processing</span>,
+    //   action: <Link to={`/order/${id}`}>view</Link>,
+    // },
+  ])
+
+
+  if (isError) {
+    const err = error as CustomError
+    toast.error(err.data.message)
+  }
+
+
+
+  useEffect(() => {
+    if (data?.orders) {
+      setRows(
+        data.orders.map((product) => ({
+          _id: product._id,
+          user: product.user?.name || "Unknown",
+          amount: product.total,
+          discount: product.discount,
+          quantity: product.orderItem ? product.orderItem.length : 0,
+          status: (
+            <span
+              className={
+                product.status === "processing"
+                  ? "red"
+                  : product.status === "shipped"
+                    ? "green"
+                    : "purple"
+              }
+            >
+              {product.status}
+            </span>
+          ),
+          action: <Link to={`/admin/transaction/${product._id}`}>Manage</Link>,
+        }))
+      );
+    }
+  }, [data, isError]);
+
+
+  ;
   const table = TableHOC<DataType>(
     column,
     rows,
@@ -59,7 +111,7 @@ const OrdersList = () => {
   return (
     <div className="container">
       <h1>My Orders</h1>
-      {table}
+      {isLoading ? <Skeleton length={20} /> : table}
     </div>
   );
 };

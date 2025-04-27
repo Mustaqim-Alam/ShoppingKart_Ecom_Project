@@ -50,32 +50,6 @@ const columns: Column<DataType>[] = [
   },
 ];
 
-const arr: DataType[] = [
-  {
-    user: "Shadab Ahmad",
-    amount: 1234,
-    discount: 23,
-    quantity: 323,
-    status: <span className="red">Processing</span>,
-    action: <Link to="/admin/transaction/njabdfjb">Manage </Link>,
-  },
-  {
-    user: "Mohammmad Zaid",
-    amount: 1534,
-    discount: 39,
-    quantity: 63,
-    status: <span className="green">Shipped</span>,
-    action: <Link to="/admin/transaction/fgdffd">Manage </Link>,
-  },
-  {
-    user: "Anas Alam",
-    amount: 4753,
-    discount: 87,
-    quantity: 43,
-    status: <span className="purple">Delivered</span>,
-    action: <Link to="/admin/transaction/ffgvfdf">Manage </Link>,
-  },
-];
 
 const Transaction = () => {
   // const [data] = useState<DataType[]>(arr);
@@ -92,20 +66,33 @@ const Transaction = () => {
   }
 
   useEffect(() => {
-    if (data)
+    if (data?.orders) {
       setRows(
         data.orders.map((product) => ({
           user: product.user?.name || "Unknown",
           amount: product.total,
           discount: product.discount,
-          quantity: product.orderItem.length,
-          status: <span className={product.status === "processaing" ? "red" : product.status === "shipped" ? "green" : "purple"}>{product.status}</span>,
+          quantity: product.orderItem ? product.orderItem.length : 0,
+          status: (
+            <span
+              className={
+                product.status === "processing"
+                  ? "red"
+                  : product.status === "shipped"
+                    ? "green"
+                    : "purple"
+              }
+            >
+              {product.status}
+            </span>
+          ),
           action: <Link to={`/admin/transaction/${product._id}`}>Manage</Link>,
-
         }))
       );
-
+    }
   }, [data, isError]);
+
+
 
 
   // const Table = useCallback(

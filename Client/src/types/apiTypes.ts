@@ -76,7 +76,7 @@ export type AllOrdersResponse = {
 };
 export type orderDetailsResponse = {
   success: boolean;
-  orders: order;
+  order: order;
 };
 export type orderUpdateRequest = {
   userId: string;
