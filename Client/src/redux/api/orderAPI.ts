@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   AllOrdersResponse,
+  deleteProductRequest,
   MessageResponse,
   newOrderRequest,
   orderDetailsResponse,
@@ -29,7 +30,7 @@ export const orderApi = createApi({
       }),
       invalidatesTags: ["orders"],
     }),
-    deleteOrder: builder.mutation<MessageResponse, orderUpdateRequest>({
+    deleteOrder: builder.mutation<MessageResponse, deleteProductRequest>({
       query: ({ orderId, userId }) => ({
         url: `${orderId}?id=${userId}`,
         method: "DELETE",
@@ -44,7 +45,7 @@ export const orderApi = createApi({
       query: (id) => `allOrders?id=${id}`,
       providesTags: ["orders"],
     }),
-    orderDetails: builder.query<orderDetailsResponse,string>({
+    orderDetails: builder.query<orderDetailsResponse, string>({
       query: (id) => id,
       providesTags: ["orders"],
     }),

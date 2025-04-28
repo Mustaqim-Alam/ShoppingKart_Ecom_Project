@@ -21,6 +21,7 @@ const Dashboard = lazy(() => import("./pages/AdminPages/Dashboard"));
 const Customer = lazy(() => import("./pages/AdminPages/Customer"));
 const Product = lazy(() => import("./pages/AdminPages/Product"));
 const Transaction = lazy(() => import("./pages/AdminPages/Transaction"));
+const NotFound = lazy(() => import("./pages/not-found"));
 
 const AddNewProduct = lazy(
   () => import("./pages/AdminPages/Management/AddNewProducts")
@@ -136,8 +137,9 @@ const App = () => {
             /> */}
           </Route>
 
-          {/* <Route path="*" element={<NotFound />} /> */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
+
       </Suspense>
       <footer />
       <Toaster position="bottom-center" />

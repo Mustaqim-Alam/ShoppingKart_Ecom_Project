@@ -96,6 +96,59 @@ a {
   }
 }
 
+/* NotFound.css */
+
+.not-found-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #f8f9fa;
+  text-align: center;
+  padding: 2rem;
+}
+
+.error-icon {
+  font-size: 6rem;
+  color: #ff4d4f;
+  margin-bottom: 1rem;
+}
+
+.not-found-container h1 {
+  font-size: 6rem;
+  margin: 0;
+  color: #333;
+}
+
+.not-found-container h2 {
+  font-size: 2rem;
+  color: #555;
+}
+
+.not-found-container p {
+  margin: 1rem 0 2rem;
+  color: #777;
+}
+
+.home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #4caf50;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.home-link:hover {
+  background: #45a049;
+}
+
+
 .admin-container {
   @include grid(1fr 4fr, 2rem);
   height: 100vh;

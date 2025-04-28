@@ -57,7 +57,7 @@ export type updateProductRequest = {
 };
 export type deleteProductRequest = {
   userId: string;
-  productId: string;
+  orderId: string;
 };
 
 export type newOrderRequest = {

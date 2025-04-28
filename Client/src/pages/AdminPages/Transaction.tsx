@@ -59,6 +59,9 @@ const Transaction = () => {
   const { user } = useSelector((state: { userReducer: userReducerInitialState }) => state.userReducer);
   const { data, error, isError, isLoading } = useAllOrderQuery(user?._id!);
 
+console.log(data?.orders);
+
+
 
   if (isError) {
     const err = error as CustomError
